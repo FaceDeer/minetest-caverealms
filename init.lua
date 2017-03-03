@@ -130,42 +130,33 @@ local c_flame = minetest.get_content_id("caverealms:constant_flame")
 local c_fountain = minetest.get_content_id("caverealms:s_fountain")
 local c_fortress = minetest.get_content_id("caverealms:s_fortress")
 
+
+local biomes = {
+	{id=6, name = "dungeon master",	y_min = DM_BOT,		y_max = DM_TOP, 	n_biome_min = nil,	n_biome_max = nil}, --6
+	{id=1, name = "moss",				y_min = DEEP_CAVE,	y_max = nil,		n_biome_min = 0,	n_biome_max = 0.5}, --1
+	{id=2, name = "fungal",			y_min = DEEP_CAVE,	y_max = nil, 		n_biome_min = nil,	n_biome_max = -0.5}, --2
+	{id=3, name = "algae",			y_min = DEEP_CAVE,	y_max = nil, 		n_biome_min = -0.5,	n_biome_max = 0}, --3
+	{id=4, name = "glaciated",		y_min = nil,		y_max = nil, 		n_biome_min = 0.5,	n_biome_max = 0.7}, --4
+	{id=5, name = "deep glaciated",	y_min = nil,		y_max = nil, 		n_biome_min = 0.7,	n_biome_max =nil}, --5
+	{id=7, name = "salt crystal",		y_min = nil,		y_max = DEEP_CAVE,	n_biome_min = 0,	n_biome_max = 0.5}, --7
+	{id=8, name = "glow obsidian",	y_min = nil,		y_max = DEEP_CAVE,	n_biome_min = nil,	n_biome_max = -0.5}, --8
+	{id=9, name = "coal dust",		y_min = nil,		y_max = DEEP_CAVE,	n_biome_min = -0.5,	n_biome_max = 0}, --9
+}
+
 local get_biome = function(y, n_biome)
-	local is_deep = false
-	if y < DEEP_CAVE then
-		is_deep = true
+	local biome_id = false
+	for _, biome in ipairs(biomes) do
+		if
+			(biome.y_max == nil or y < biome.y_max) and
+			(biome.y_min == nil or y > biome.y_min) and
+			(biome.n_biome_max == nil or n_biome < biome.n_biome_max) and
+			(biome.n_biome_min == nil or n_biome > biome.n_biome_min) then
+			biome_id = biome.id
+			break
+		end
 	end
 
-	local biome = false
-
-	if n_biome >= 0 and n_biome < 0.5 then
-		biome = 1 --moss
-		if is_deep then
-			biome = 7 --salt crystal
-		end
-	elseif n_biome <= -0.5 then
-		biome = 2 --fungal
-		if is_deep then
-			biome = 8 --glow obsidian
-		end
-	elseif n_biome >= 0.5 then
-		if n_biome >= 0.7 then
-			biome = 5 --deep glaciated
-		else
-			biome = 4 --glaciated
-		end
-	else
-		biome = 3 --algae
-		if is_deep then
-			biome = 9 --coal dust
-		end
-	end
-	
-	if y <= DM_TOP and y >= DM_BOT then
-		biome = 6 --DUNGEON MASTER'S LAIR
-	end
-	
-	return biome
+	return biome_id
 end
 
 
