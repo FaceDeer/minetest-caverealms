@@ -43,7 +43,11 @@ function caverealms:below_solid(x,y,z,area,data)
 end
 
 --stalagmite spawner
-function caverealms:stalagmite(x,y,z, area, data)
+function caverealms:stalagmite(vi, area, data)
+	local pos = area:position(vi)
+	local x = pos.x
+	local y = pos.y
+	local z = pos.z
 
 	if not caverealms:below_solid(x,y,z,area,data) then
 		return
@@ -81,7 +85,11 @@ function caverealms:stalagmite(x,y,z, area, data)
 end
 
 --stalactite spawner
-function caverealms:stalactite(x,y,z, area, data)
+function caverealms:stalactite(vi, area, data)
+	local pos = area:position(vi)
+	local x = pos.x
+	local y = pos.y
+	local z = pos.z
 
 	if not caverealms:above_solid(x,y,z,area,data) then
 		return
@@ -119,7 +127,11 @@ function caverealms:stalactite(x,y,z, area, data)
 end
 
 --glowing crystal stalagmite spawner
-function caverealms:crystal_stalagmite(x,y,z, area, data, biome)
+function caverealms:crystal_stalagmite(vi, area, data, biome)
+	local pos = area:position(vi)
+	local x = pos.x
+	local y = pos.y
+	local z = pos.z
 
 	if not caverealms:below_solid(x,y,z,area,data) then
 		return
@@ -220,7 +232,11 @@ function caverealms:crystal_stalagmite(x,y,z, area, data, biome)
 end
 
 --crystal stalactite spawner
-function caverealms:crystal_stalactite(x,y,z, area, data, biome)
+function caverealms:crystal_stalactite(vi, area, data, biome)
+	local pos = area:position(vi)
+	local x = pos.x
+	local y = pos.y
+	local z = pos.z
 
 	if not caverealms:above_solid(x,y,z,area,data) then
 		return
@@ -321,7 +337,11 @@ function caverealms:crystal_stalactite(x,y,z, area, data, biome)
 end
 
 --glowing crystal stalagmite spawner
-function caverealms:salt_stalagmite(x,y,z, area, data, biome)
+function caverealms:salt_stalagmite(vi, area, data, biome)
+	local pos = area:position(vi)
+	local x = pos.x
+	local y = pos.y
+	local z = pos.z
 
 	if not caverealms:below_solid(x,y,z,area,data) then
 		return
@@ -366,7 +386,11 @@ function caverealms:salt_stalagmite(x,y,z, area, data, biome)
 end
 
 --function to create giant 'shrooms
-function caverealms:giant_shroom(x, y, z, area, data)
+function caverealms:giant_shroom(vi, area, data)
+	local pos = area:position(vi)
+	local x = pos.x
+	local y = pos.y
+	local z = pos.z
 
 	if not caverealms:below_solid(x,y,z,area,data) then
 		return
