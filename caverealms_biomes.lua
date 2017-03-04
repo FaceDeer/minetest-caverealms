@@ -28,6 +28,8 @@ local DM_TOP = caverealms.config.dm_top -- -4000 --level at which Dungeon Master
 local DM_BOT = caverealms.config.dm_bot -- -5000 --level at which "" ends
 local DEEP_CAVE = caverealms.config.deep_cave -- -7000 --level at which deep cave biomes take over
 
+minetest.register_alias("caverealms:constant_flame", "fire:permanent_flame")
+
 local c_water = minetest.get_content_id("default:water_source")
 local c_air = minetest.get_content_id("air")
 local c_ice = minetest.get_content_id("default:ice")
@@ -63,7 +65,7 @@ local c_mycena = minetest.get_content_id("caverealms:mycena")
 local c_worm = minetest.get_content_id("caverealms:glow_worm")
 local c_iciu = minetest.get_content_id("caverealms:icicle_up")
 local c_icid = minetest.get_content_id("caverealms:icicle_down")
-local c_flame = minetest.get_content_id("caverealms:constant_flame")
+local c_flame = minetest.get_content_id("fire:permanent_flame")
 local c_fountain = minetest.get_content_id("caverealms:s_fountain")
 local c_fortress = minetest.get_content_id("caverealms:s_fortress")
 
