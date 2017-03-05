@@ -87,6 +87,28 @@ local c_spike5 = minetest.get_content_id("caverealms:spike_5")
 local c_thinice = minetest.get_content_id("caverealms:thin_ice")
 local c_worm = minetest.get_content_id("caverealms:glow_worm")
 
+
+local glow_worm_ceiling = function(area, data, ai, vi, bi)
+	if math.random() < WORMCHA then
+		data[vi] = c_worm
+		data[bi] = c_worm
+		if math.random(2) == 1 then
+			local pos = area:position(vi)
+			pos.y = pos.y-2
+			local bbi = area:indexp(pos)
+			data[bbi] = c_worm
+			if math.random(2) ==1 then
+				pos.y = pos.y-1
+				local bbbi = area:indexp(pos)
+				data[bbbi] = c_worm
+			end
+		end
+	end
+end
+
+-----------------------------------------------------------------------------------------------------------
+-- Dungeon
+
 local dungeon_floor = function(area, data, ai, vi, bi)
 	data[vi] = c_hcobble
 	if math.random() < FLACHA then --neverending flames
@@ -96,15 +118,31 @@ local dungeon_floor = function(area, data, ai, vi, bi)
 	elseif math.random() < FORTCHA and FORTRESSES then --DM FORTRESS
 		data[ai] = c_fortress
 	elseif math.random() < STAGCHA then
-		caverealms:stalagmite_material(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		caverealms:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_meseore, c_mesecry)
+			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_meseore, c_mesecry)
 		else
-			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_rubore, c_ruby)
+			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_rubore, c_ruby)
 		end
 	end
 end
+
+local dungeon_ceiling = function(area, data, ai, vi, bi)
+	glow_worm_ceiling(area, data, ai, vi, bi)
+	if math.random() < STALCHA then
+		caverealms:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
+	elseif math.random() < CRYSTAL then
+		if math.random(15) == 1 then
+			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_meseore, c_mesecry)
+		else
+			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_rubore, c_ruby)
+		end
+	end
+end
+
+-----------------------------------------------------------------------------------------------------------
+-- Moss
 
 local moss_floor = function(area, data, ai, vi, bi)
 	data[vi] = c_moss
@@ -117,15 +155,32 @@ local moss_floor = function(area, data, ai, vi, bi)
 		end
 		data[ai] = gems[gidx]
 	elseif math.random() < STAGCHA then
-		caverealms:stalagmite_material(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		caverealms:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
+			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
 		else
-			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
+			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
 		end
 	end
 end
+
+local moss_ceiling = function(area, data, ai, vi, bi)
+	glow_worm_ceiling(area, data, ai, vi, bi)
+	if math.random() < STALCHA then
+		caverealms:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
+	elseif math.random() < CRYSTAL then
+		if math.random(15) == 1 then
+			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_emore, c_emerald)
+		else
+			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
+		end
+	end	
+end
+
+
+-----------------------------------------------------------------------------------------------------------
+-- Fungal
 
 local fungal_floor = function(area, data, ai, vi, bi)
 	data[vi] = c_lichen
@@ -136,29 +191,63 @@ local fungal_floor = function(area, data, ai, vi, bi)
 	elseif math.random() < GIANTCHA then --giant mushrooms
 		caverealms:giant_shroom(vi, area, data)
 	elseif math.random() < STAGCHA then
-		caverealms:stalagmite_material(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		caverealms:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
+			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
 		else
-			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
+			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
 		end
-
 	end
 end
+
+
+local fungal_ceiling = function(area, data, ai, vi, bi)
+	glow_worm_ceiling(area, data, ai, vi, bi)
+	if math.random() < STALCHA then
+		caverealms:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
+	elseif math.random() < CRYSTAL then
+		if math.random(15) == 1 then
+			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
+		else
+			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_emore, c_emerald)
+		end
+	end
+end
+
+-----------------------------------------------------------------------------------------------------------
+-- Algae
 
 local algae_floor = function(area, data, ai, vi, bi)
 	data[vi] = c_algae
 	if math.random() < STAGCHA then
-		caverealms:stalagmite_material(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		caverealms:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(25) == 1 then
-			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_meseore, c_mesecry)
+			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_meseore, c_mesecry)
 		else
-			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
+			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
 		end
 	end
 end
+
+local algae_ceiling = function(area, data, ai, vi, bi)
+	glow_worm_ceiling(area, data, ai, vi, bi)
+	
+	if math.random() < STALCHA then
+		caverealms:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
+	elseif math.random() < CRYSTAL then
+		if math.random(25) == 1 then
+			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_meseore, c_mesecry)
+		else
+			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_emore, c_emerald)
+		end
+	end
+
+end
+
+-----------------------------------------------------------------------------------------------------------
+-- Glaciated
 
 local glaciated_floor = function(area, data, ai, vi, bi)
 	data[vi] = c_thinice
@@ -166,15 +255,35 @@ local glaciated_floor = function(area, data, ai, vi, bi)
 	if math.random() < ICICHA then --if glaciated, place icicles
 		data[ai] = c_iciu
 	elseif math.random() < STAGCHA then
-		caverealms:stalagmite_material(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		caverealms:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(3) == 1 then
-			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
+			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
 		else
-			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_ice, c_ice, c_thinice)
+			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_ice, c_ice, c_thinice)
 		end
 	end
 end
+
+local glaciated_ceiling = function(area, data, ai, vi, bi)
+	if math.random() < ICICHA then
+		data[vi] = c_icid
+	end
+	glow_worm_ceiling(area, data, ai, vi, bi)
+	if math.random() < STALCHA then
+		caverealms:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
+	elseif math.random() < CRYSTAL then
+		if math.random(3) == 1 then
+			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
+		else
+			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_ice, c_ice, c_thinice)
+		end
+	end
+end
+
+-----------------------------------------------------------------------------------------------------------
+-- Deep Glaciated
+
 
 local deep_glaciated_floor = function(area, data, ai, vi, bi)
 	data[vi] = c_ice
@@ -182,15 +291,35 @@ local deep_glaciated_floor = function(area, data, ai, vi, bi)
 	if math.random() < ICICHA then --if glaciated, place icicles
 		data[ai] = c_iciu
 	elseif math.random() < STAGCHA then
-		caverealms:stalagmite_material(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		caverealms:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(3) == 1 then
-			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
+			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
 		else
-			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_ice, c_ice, c_thinice)
+			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_ice, c_ice, c_thinice)
 		end
 	end
 end
+
+local deep_glaciated_ceiling = function(area, data, ai, vi, bi)
+	if math.random() < ICICHA then
+		data[vi] = c_icid
+	end
+	glow_worm_ceiling(area, data, ai, vi, bi)
+	
+	if math.random() < STALCHA then
+		caverealms:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
+	elseif math.random() < CRYSTAL then
+		if math.random(3) == 1 then
+			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
+		else
+			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_ice, c_ice, c_thinice)
+		end
+	end	
+end
+
+-----------------------------------------------------------------------------------------------------------
+-- Salt
 
 local salt_floor = function(area, data, ai, vi, bi)
 	data[vi] = c_salt
@@ -206,15 +335,33 @@ local salt_floor = function(area, data, ai, vi, bi)
 	elseif math.random() < STAGCHA then
 		caverealms:salt_stalagmite(vi, area, data)
 	elseif math.random() < STAGCHA then
-		caverealms:stalagmite_material(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		caverealms:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_rubore, c_ruby)
+			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_rubore, c_ruby)
 		else
-			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
+			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
 		end
 	end
 end
+
+
+local salt_ceiling = function(area, data, ai, vi, bi)
+	glow_worm_ceiling(area, data, ai, vi, bi, 7)
+	
+	if math.random() < STALCHA then
+		caverealms:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
+	elseif math.random() < CRYSTAL then
+		if math.random(15) == 1 then
+			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_rubore, c_ruby)
+		else
+			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
+		end
+	end	
+end
+
+-----------------------------------------------------------------------------------------------------------
+-- Glowing Obsidian
 
 local obsidian_floor = function(area, data, ai, vi, bi)
 	if math.random() < 0.5 then
@@ -227,15 +374,32 @@ local obsidian_floor = function(area, data, ai, vi, bi)
 	if math.random() < FLACHA then --neverending flames
 		data[ai] = c_flame
 	elseif math.random() < STAGCHA then
-		caverealms:stalagmite_material(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		caverealms:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
+			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
 		else
-			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_rubore, c_ruby)
+			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_rubore, c_ruby)
 		end
 	end
 end
+
+local obsidian_ceiling = function(area, data, ai, vi, bi)
+	glow_worm_ceiling(area, data, ai, vi, bi, 8)
+	
+	if math.random() < STALCHA then
+		caverealms:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
+	elseif math.random() < CRYSTAL then
+		if math.random(15) == 1 then
+			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_emore, c_emerald)
+		else
+			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_rubore, c_ruby)
+		end
+	end
+end
+
+-----------------------------------------------------------------------------------------------------------
+-- Coal Dust
 
 local coal_floor = function(area, data, ai, vi, bi)
 	if math.random() < 0.05 then
@@ -259,76 +423,16 @@ local coal_floor = function(area, data, ai, vi, bi)
 		end
 		data[ai] = spikes[sidx]
 	elseif math.random() < STAGCHA then
-		caverealms:stalagmite_material(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		caverealms:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_meseore, c_mesecry)
+			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_meseore, c_mesecry)
 		else
-			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_amethore, c_ameth)
+			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_amethore, c_ameth)
 		end
 	end
 end
 
-
-local standard_ceiling = function(area, data, ai, vi, bi, biome)
-	if math.random() < WORMCHA then
-		data[vi] = c_worm
-		data[bi] = c_worm
-		if math.random(2) == 1 then
-			local pos = area:position(vi)
-			pos.y = pos.y-2
-			local bbi = area:indexp(pos)
-			data[bbi] = c_worm
-			if math.random(2) ==1 then
-				pos.y = pos.y-1
-				local bbbi = area:indexp(pos)
-				data[bbbi] = c_worm
-			end
-		end
-	elseif math.random() < STALCHA then
-		caverealms:stalactite(vi, area, data)
-	elseif math.random() < CRYSTAL then
-		caverealms:crystal_stalactite(vi, area, data, biome)
-	end
-end
-
-local dungeon_ceiling = function(area, data, ai, vi, bi)
-	standard_ceiling(area, data, ai, vi, bi, 6)
-end
-
-local moss_ceiling = function(area, data, ai, vi, bi)
-	standard_ceiling(area, data, ai, vi, bi, 1)
-end
-
-local fungal_ceiling = function(area, data, ai, vi, bi)
-	standard_ceiling(area, data, ai, vi, bi, 2)
-end
-
-local algae_ceiling = function(area, data, ai, vi, bi)
-	standard_ceiling(area, data, ai, vi, bi, 3)
-end
-
-local glaciated_ceiling = function(area, data, ai, vi, bi)
-	if math.random() < ICICHA then
-		data[vi] = c_icid
-	end
-	standard_ceiling(area, data, ai, vi, bi, 4)
-end
-
-local deep_glaciated_ceiling = function(area, data, ai, vi, bi)
-	if math.random() < ICICHA then
-		data[vi] = c_icid
-	end
-	standard_ceiling(area, data, ai, vi, bi, 5)
-end
-
-local salt_ceiling = function(area, data, ai, vi, bi)
-	standard_ceiling(area, data, ai, vi, bi, 7)
-end
-
-local obsidian_ceiling = function(area, data, ai, vi, bi)
-	standard_ceiling(area, data, ai, vi, bi, 8)
-end
 
 local coal_ceiling = function(area, data, ai, vi, bi)
 	if math.random() < WORMCHA then
@@ -345,13 +449,18 @@ local coal_ceiling = function(area, data, ai, vi, bi)
 		end
 	end
 	if math.random() < STALCHA then
-		caverealms:stalactite(x,y,z, area, data)
+		caverealms:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	end
 	if math.random() < CRYSTAL then
-		caverealms:crystal_stalactite(x,y,z, area, data, 9)
+		if math.random(15) == 1 then
+			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_meseore, c_mesecry)
+		else
+			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_amethore, c_ameth)
+		end
 	end
 end
 
+-----------------------------------------------------------------------------------------------------------
 
 caverealms.biomes = {
 	{name = "dungeon master",	y_min = DM_BOT,		y_max = DM_TOP, 	n_biome_min = nil,	n_biome_max = nil,	ceiling_decor = dungeon_ceiling,		floor_decor = dungeon_floor,		fill_node = c_air}, --6
