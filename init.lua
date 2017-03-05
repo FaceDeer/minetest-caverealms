@@ -5,6 +5,11 @@
 -- License: code WTFPL
 
 caverealms = {} --create a container for functions and constants
+caverealms.biomes = {}
+
+function caverealms:register_biome(biome_def)
+	table.insert(caverealms.biomes, biome_def)
+end
 
 --grab a shorthand for the filepath of the mod
 local modpath = minetest.get_modpath(minetest.get_current_modname())

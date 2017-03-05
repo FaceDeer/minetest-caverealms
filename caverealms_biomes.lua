@@ -87,7 +87,6 @@ local c_spike5 = minetest.get_content_id("caverealms:spike_5")
 local c_thinice = minetest.get_content_id("caverealms:thin_ice")
 local c_worm = minetest.get_content_id("caverealms:glow_worm")
 
-
 local glow_worm_ceiling = function(area, data, ai, vi, bi)
 	if math.random() < WORMCHA then
 		data[vi] = c_worm
@@ -141,6 +140,17 @@ local dungeon_ceiling = function(area, data, ai, vi, bi)
 	end
 end
 
+caverealms:register_biome({
+	name = "dungeon",
+	y_min = DM_BOT,
+	y_max = DM_TOP,
+ 	n_biome_min = nil,
+	n_biome_max = nil,
+	ceiling_decor = dungeon_ceiling,
+	floor_decor = dungeon_floor,
+	fill_node = c_air
+})
+
 -----------------------------------------------------------------------------------------------------------
 -- Moss
 
@@ -178,6 +188,16 @@ local moss_ceiling = function(area, data, ai, vi, bi)
 	end	
 end
 
+caverealms:register_biome({
+	name = "moss",
+	y_min = DEEP_CAVE,
+	y_max = nil,
+	n_biome_min = 0,
+	n_biome_max = 0.5,
+	ceiling_decor = moss_ceiling,
+	floor_decor = moss_floor,
+	fill_node = c_air
+})
 
 -----------------------------------------------------------------------------------------------------------
 -- Fungal
@@ -201,7 +221,6 @@ local fungal_floor = function(area, data, ai, vi, bi)
 	end
 end
 
-
 local fungal_ceiling = function(area, data, ai, vi, bi)
 	glow_worm_ceiling(area, data, ai, vi, bi)
 	if math.random() < STALCHA then
@@ -214,6 +233,17 @@ local fungal_ceiling = function(area, data, ai, vi, bi)
 		end
 	end
 end
+
+caverealms:register_biome({
+	name = "fungal",
+	y_min = DEEP_CAVE,
+	y_max = nil,
+	n_biome_min = nil,
+	n_biome_max = -0.5,
+	ceiling_decor = fungal_ceiling,
+	floor_decor = fungal_floor,
+	fill_node = c_air
+})
 
 -----------------------------------------------------------------------------------------------------------
 -- Algae
@@ -245,6 +275,17 @@ local algae_ceiling = function(area, data, ai, vi, bi)
 	end
 
 end
+
+caverealms:register_biome({
+	name = "algae",
+	y_min = DEEP_CAVE,
+	y_max = nil,
+	n_biome_min = -0.5,
+	n_biome_max = 0,
+	ceiling_decor = algae_ceiling,
+	floor_decor = algae_floor,
+	fill_node = c_air
+})
 
 -----------------------------------------------------------------------------------------------------------
 -- Glaciated
@@ -280,6 +321,17 @@ local glaciated_ceiling = function(area, data, ai, vi, bi)
 		end
 	end
 end
+
+caverealms:register_biome({
+	name = "glaciated",
+	y_min = nil,
+	y_max = nil,
+	n_biome_min = 0.5,
+	n_biome_max = 0.7,
+	ceiling_decor = glaciated_ceiling,
+	floor_decor = glaciated_floor,
+	fill_node = c_air
+})
 
 -----------------------------------------------------------------------------------------------------------
 -- Deep Glaciated
@@ -318,6 +370,17 @@ local deep_glaciated_ceiling = function(area, data, ai, vi, bi)
 	end	
 end
 
+caverealms:register_biome({
+	name = "deep glaciated",
+	y_min = nil,
+	y_max = nil,
+	n_biome_min = 0.7,
+	n_biome_max =nil,
+	ceiling_decor = deep_glaciated_ceiling,
+	floor_decor = deep_glaciated_floor,
+	fill_node = c_air
+})
+
 -----------------------------------------------------------------------------------------------------------
 -- Salt
 
@@ -345,7 +408,6 @@ local salt_floor = function(area, data, ai, vi, bi)
 	end
 end
 
-
 local salt_ceiling = function(area, data, ai, vi, bi)
 	glow_worm_ceiling(area, data, ai, vi, bi, 7)
 	
@@ -359,6 +421,17 @@ local salt_ceiling = function(area, data, ai, vi, bi)
 		end
 	end	
 end
+
+caverealms:register_biome({
+	name = "salt crystal",
+	y_min = nil,
+	y_max = DEEP_CAVE,
+	n_biome_min = 0,
+	n_biome_max = 0.5,
+	ceiling_decor = salt_ceiling,
+	floor_decor = salt_floor,
+	fill_node = c_air
+})
 
 -----------------------------------------------------------------------------------------------------------
 -- Glowing Obsidian
@@ -398,6 +471,17 @@ local obsidian_ceiling = function(area, data, ai, vi, bi)
 	end
 end
 
+caverealms:register_biome({
+	name = "glow obsidian",
+	y_min = nil,
+	y_max = DEEP_CAVE,
+	n_biome_min = nil,
+	n_biome_max = -0.5,
+	ceiling_decor = obsidian_ceiling,
+	floor_decor = obsidian_floor,
+	fill_node = c_air
+})
+
 -----------------------------------------------------------------------------------------------------------
 -- Coal Dust
 
@@ -433,7 +517,6 @@ local coal_floor = function(area, data, ai, vi, bi)
 	end
 end
 
-
 local coal_ceiling = function(area, data, ai, vi, bi)
 	if math.random() < WORMCHA then
 		data[vi] = c_worm
@@ -460,16 +543,13 @@ local coal_ceiling = function(area, data, ai, vi, bi)
 	end
 end
 
------------------------------------------------------------------------------------------------------------
-
-caverealms.biomes = {
-	{name = "dungeon master",	y_min = DM_BOT,		y_max = DM_TOP, 	n_biome_min = nil,	n_biome_max = nil,	ceiling_decor = dungeon_ceiling,		floor_decor = dungeon_floor,		fill_node = c_air}, --6
-	{name = "moss",				y_min = DEEP_CAVE,	y_max = nil,		n_biome_min = 0,	n_biome_max = 0.5,	ceiling_decor = moss_ceiling,			floor_decor = moss_floor,			fill_node = c_air}, --1
-	{name = "fungal",			y_min = DEEP_CAVE,	y_max = nil, 		n_biome_min = nil,	n_biome_max = -0.5,	ceiling_decor = fungal_ceiling,			floor_decor = fungal_floor,			fill_node = c_air}, --2
-	{name = "algae",			y_min = DEEP_CAVE,	y_max = nil, 		n_biome_min = -0.5,	n_biome_max = 0,	ceiling_decor = algae_ceiling,			floor_decor = algae_floor,			fill_node = c_air}, --3
-	{name = "glaciated",		y_min = nil,		y_max = nil, 		n_biome_min = 0.5,	n_biome_max = 0.7,	ceiling_decor = glaciated_ceiling,		floor_decor = glaciated_floor,		fill_node = c_air}, --4
-	{name = "deep glaciated",	y_min = nil,		y_max = nil, 		n_biome_min = 0.7,	n_biome_max =nil,	ceiling_decor = deep_glaciated_ceiling,	floor_decor = deep_glaciated_floor,	fill_node = c_air}, --5
-	{name = "salt crystal",		y_min = nil,		y_max = DEEP_CAVE,	n_biome_min = 0,	n_biome_max = 0.5,	ceiling_decor = salt_ceiling,			floor_decor = salt_floor,			fill_node = c_air}, --7
-	{name = "glow obsidian",	y_min = nil,		y_max = DEEP_CAVE,	n_biome_min = nil,	n_biome_max = -0.5,	ceiling_decor = obsidian_ceiling,		floor_decor = obsidian_floor,		fill_node = c_air}, --8
-	{name = "coal dust",		y_min = nil,		y_max = DEEP_CAVE,	n_biome_min = -0.5,	n_biome_max = 0,	ceiling_decor = coal_ceiling,			floor_decor = coal_floor,			fill_node = c_air}, --9
-}
+caverealms:register_biome({
+	name = "coal dust",
+	y_min = nil,
+	y_max = DEEP_CAVE,
+	n_biome_min = -0.5,
+	n_biome_max = 0,
+	ceiling_decor = coal_ceiling,
+	floor_decor = coal_floor,
+	fill_node = c_air
+})
