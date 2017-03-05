@@ -205,7 +205,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	--send data back to voxelmanip
 	vm:set_data(data)
 	--calc lighting
-	vm:set_lighting({day=0, night=0})
+	vm:set_lighting({day = 0, night = 0})
 	vm:calc_lighting()
 	--write it to world
 	vm:write_to_map(data)
