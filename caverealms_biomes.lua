@@ -28,18 +28,52 @@ local DM_TOP = caverealms.config.dm_top -- -4000 --level at which Dungeon Master
 local DM_BOT = caverealms.config.dm_bot -- -5000 --level at which "" ends
 local DEEP_CAVE = caverealms.config.deep_cave -- -7000 --level at which deep cave biomes take over
 
+local H_LAG = caverealms.config.h_lag --15 --max height for stalagmites
+local H_LAC = caverealms.config.h_lac --20 --...stalactites
+local H_CRY = caverealms.config.h_cry --9 --max height of glow crystals
+local H_CLAC = caverealms.config.h_clac --13 --max height of glow crystal stalactites
+
+
 minetest.register_alias("caverealms:constant_flame", "fire:permanent_flame")
 
 local c_water = minetest.get_content_id("default:water_source")
 local c_air = minetest.get_content_id("air")
 local c_ice = minetest.get_content_id("default:ice")
-local c_thinice = minetest.get_content_id("caverealms:thin_ice")
+local c_stone = minetest.get_content_id("default:stone")
+local c_desand = minetest.get_content_id("default:desert_sand")
+local c_flame = minetest.get_content_id("fire:permanent_flame")
+local c_ice = minetest.get_content_id("default:ice")
+
+local c_algae = minetest.get_content_id("caverealms:stone_with_algae")
+local c_ameth = minetest.get_content_id("caverealms:glow_amethyst")
+local c_amethore = minetest.get_content_id("caverealms:glow_amethyst_ore")
+local c_coalblock = minetest.get_content_id("default:coalblock")
+local c_coaldust = minetest.get_content_id("caverealms:coal_dust")
 local c_crystal = minetest.get_content_id("caverealms:glow_crystal")
+local c_crystore = minetest.get_content_id("caverealms:glow_ore")
+local c_emerald = minetest.get_content_id("caverealms:glow_emerald")
+local c_emore = minetest.get_content_id("caverealms:glow_emerald_ore")
+local c_fortress = minetest.get_content_id("caverealms:s_fortress")
+local c_fountain = minetest.get_content_id("caverealms:s_fountain")
+local c_fungus = minetest.get_content_id("caverealms:fungus")
 local c_gem1 = minetest.get_content_id("caverealms:glow_gem")
 local c_gem2 = minetest.get_content_id("caverealms:glow_gem_2")
 local c_gem3 = minetest.get_content_id("caverealms:glow_gem_3")
 local c_gem4 = minetest.get_content_id("caverealms:glow_gem_4")
 local c_gem5 = minetest.get_content_id("caverealms:glow_gem_5")
+local c_gobsidian = minetest.get_content_id("caverealms:glow_obsidian")
+local c_gobsidian2 = minetest.get_content_id("caverealms:glow_obsidian_2")
+local c_hcobble = minetest.get_content_id("caverealms:hot_cobble")
+local c_icid = minetest.get_content_id("caverealms:icicle_down")
+local c_iciu = minetest.get_content_id("caverealms:icicle_up")
+local c_lichen = minetest.get_content_id("caverealms:stone_with_lichen")
+local c_mesecry = minetest.get_content_id("caverealms:glow_mese")
+local c_meseore = minetest.get_content_id("default:stone_with_mese")
+local c_moss = minetest.get_content_id("caverealms:stone_with_moss")
+local c_mycena = minetest.get_content_id("caverealms:mycena")
+local c_rubore = minetest.get_content_id("caverealms:glow_ruby_ore")
+local c_ruby = minetest.get_content_id("caverealms:glow_ruby")
+local c_salt = minetest.get_content_id("caverealms:stone_with_salt")
 local c_saltgem1 = minetest.get_content_id("caverealms:salt_gem")
 local c_saltgem2 = minetest.get_content_id("caverealms:salt_gem_2")
 local c_saltgem3 = minetest.get_content_id("caverealms:salt_gem_3")
@@ -50,24 +84,8 @@ local c_spike2 = minetest.get_content_id("caverealms:spike_2")
 local c_spike3 = minetest.get_content_id("caverealms:spike_3")
 local c_spike4 = minetest.get_content_id("caverealms:spike_4")
 local c_spike5 = minetest.get_content_id("caverealms:spike_5")
-local c_moss = minetest.get_content_id("caverealms:stone_with_moss")
-local c_lichen = minetest.get_content_id("caverealms:stone_with_lichen")
-local c_algae = minetest.get_content_id("caverealms:stone_with_algae")
-local c_salt = minetest.get_content_id("caverealms:stone_with_salt")
-local c_hcobble = minetest.get_content_id("caverealms:hot_cobble")
-local c_gobsidian = minetest.get_content_id("caverealms:glow_obsidian")
-local c_gobsidian2 = minetest.get_content_id("caverealms:glow_obsidian_2")
-local c_coalblock = minetest.get_content_id("default:coalblock")
-local c_desand = minetest.get_content_id("default:desert_sand")
-local c_coaldust = minetest.get_content_id("caverealms:coal_dust")
-local c_fungus = minetest.get_content_id("caverealms:fungus")
-local c_mycena = minetest.get_content_id("caverealms:mycena")
+local c_thinice = minetest.get_content_id("caverealms:thin_ice")
 local c_worm = minetest.get_content_id("caverealms:glow_worm")
-local c_iciu = minetest.get_content_id("caverealms:icicle_up")
-local c_icid = minetest.get_content_id("caverealms:icicle_down")
-local c_flame = minetest.get_content_id("fire:permanent_flame")
-local c_fountain = minetest.get_content_id("caverealms:s_fountain")
-local c_fortress = minetest.get_content_id("caverealms:s_fortress")
 
 local dungeon_floor = function(area, data, ai, vi, bi)
 	data[vi] = c_hcobble
@@ -78,9 +96,13 @@ local dungeon_floor = function(area, data, ai, vi, bi)
 	elseif math.random() < FORTCHA and FORTRESSES then --DM FORTRESS
 		data[ai] = c_fortress
 	elseif math.random() < STAGCHA then
-		caverealms:stalagmite(vi, area, data)
+		caverealms:stalagmite_material(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
-		caverealms:crystal_stalagmite(vi, area, data, 6)
+		if math.random(15) == 1 then
+			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_meseore, c_mesecry)
+		else
+			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_rubore, c_ruby)
+		end
 	end
 end
 
@@ -95,9 +117,13 @@ local moss_floor = function(area, data, ai, vi, bi)
 		end
 		data[ai] = gems[gidx]
 	elseif math.random() < STAGCHA then
-		caverealms:stalagmite(vi, area, data)
+		caverealms:stalagmite_material(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
-		caverealms:crystal_stalagmite(vi, area, data, 1)
+		if math.random(15) == 1 then
+			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
+		else
+			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
+		end
 	end
 end
 
@@ -110,18 +136,27 @@ local fungal_floor = function(area, data, ai, vi, bi)
 	elseif math.random() < GIANTCHA then --giant mushrooms
 		caverealms:giant_shroom(vi, area, data)
 	elseif math.random() < STAGCHA then
-		caverealms:stalagmite(vi, area, data)
+		caverealms:stalagmite_material(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
-		caverealms:crystal_stalagmite(vi, area, data, 2)
+		if math.random(15) == 1 then
+			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
+		else
+			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
+		end
+
 	end
 end
 
 local algae_floor = function(area, data, ai, vi, bi)
 	data[vi] = c_algae
 	if math.random() < STAGCHA then
-		caverealms:stalagmite(vi, area, data)
+		caverealms:stalagmite_material(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
-		caverealms:crystal_stalagmite(vi, area, data, 3)
+		if math.random(25) == 1 then
+			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_meseore, c_mesecry)
+		else
+			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
+		end
 	end
 end
 
@@ -131,9 +166,13 @@ local glaciated_floor = function(area, data, ai, vi, bi)
 	if math.random() < ICICHA then --if glaciated, place icicles
 		data[ai] = c_iciu
 	elseif math.random() < STAGCHA then
-		caverealms:stalagmite(vi, area, data)
+		caverealms:stalagmite_material(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
-		caverealms:crystal_stalagmite(vi, area, data, 4)
+		if math.random(3) == 1 then
+			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
+		else
+			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_ice, c_ice, c_thinice)
+		end
 	end
 end
 
@@ -143,9 +182,13 @@ local deep_glaciated_floor = function(area, data, ai, vi, bi)
 	if math.random() < ICICHA then --if glaciated, place icicles
 		data[ai] = c_iciu
 	elseif math.random() < STAGCHA then
-		caverealms:stalagmite(vi, area, data)
+		caverealms:stalagmite_material(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
-		caverealms:crystal_stalagmite(vi, area, data, 5)
+		if math.random(3) == 1 then
+			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
+		else
+			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_ice, c_ice, c_thinice)
+		end
 	end
 end
 
@@ -163,9 +206,13 @@ local salt_floor = function(area, data, ai, vi, bi)
 	elseif math.random() < STAGCHA then
 		caverealms:salt_stalagmite(vi, area, data)
 	elseif math.random() < STAGCHA then
-		caverealms:stalagmite(vi, area, data)
+		caverealms:stalagmite_material(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
-		caverealms:crystal_stalagmite(vi, area, data, 7)
+		if math.random(15) == 1 then
+			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_rubore, c_ruby)
+		else
+			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
+		end
 	end
 end
 
@@ -180,9 +227,13 @@ local obsidian_floor = function(area, data, ai, vi, bi)
 	if math.random() < FLACHA then --neverending flames
 		data[ai] = c_flame
 	elseif math.random() < STAGCHA then
-		caverealms:stalagmite(vi, area, data)
+		caverealms:stalagmite_material(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
-		caverealms:crystal_stalagmite(vi, area, data, 8)
+		if math.random(15) == 1 then
+			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
+		else
+			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_rubore, c_ruby)
+		end
 	end
 end
 
@@ -208,9 +259,13 @@ local coal_floor = function(area, data, ai, vi, bi)
 		end
 		data[ai] = spikes[sidx]
 	elseif math.random() < STAGCHA then
-		caverealms:stalagmite(vi, area, data)
+		caverealms:stalagmite_material(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
-		caverealms:crystal_stalagmite(vi, area, data, 9)
+		if math.random(15) == 1 then
+			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_meseore, c_mesecry)
+		else
+			caverealms:stalagmite_material(vi, area, data, 5, H_CRY, c_stone, c_amethore, c_ameth)
+		end
 	end
 end
 
