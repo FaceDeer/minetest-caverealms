@@ -120,7 +120,7 @@ local dungeon_floor = function(area, data, ai, vi, bi)
 		data[ai] = c_fountain
 	elseif math.random() < FORTCHA and FORTRESSES then --DM FORTRESS
 		data[ai] = c_fortress
-	elseif math.random() < STAGCHA then
+	elseif subterrane:vertically_consistent_random(vi, area) < STAGCHA then
 		subterrane:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
@@ -133,7 +133,7 @@ end
 
 local dungeon_ceiling = function(area, data, ai, vi, bi)
 	glow_worm_ceiling(area, data, ai, vi, bi)
-	if math.random() < STALCHA then
+	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
 		subterrane:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
@@ -168,7 +168,7 @@ local moss_floor = function(area, data, ai, vi, bi)
 			gidx = 1
 		end
 		data[ai] = gems[gidx]
-	elseif math.random() < STAGCHA then
+	elseif subterrane:vertically_consistent_random(vi, area) < STAGCHA then
 		subterrane:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
@@ -181,7 +181,7 @@ end
 
 local moss_ceiling = function(area, data, ai, vi, bi)
 	glow_worm_ceiling(area, data, ai, vi, bi)
-	if math.random() < STALCHA then
+	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
 		subterrane:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
@@ -216,7 +216,7 @@ local fungal_floor = function(area, data, ai, vi, bi)
 		local cap_radius = math.random(2,5)
 		local stem_height = math.random(3,7)
 		subterrane:giant_shroom(vi, area, data, c_stem, c_cap, c_gills, stem_height, cap_radius)
-	elseif math.random() < STAGCHA then
+	elseif subterrane:vertically_consistent_random(vi, area) < STAGCHA then
 		subterrane:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
@@ -229,7 +229,7 @@ end
 
 local fungal_ceiling = function(area, data, ai, vi, bi)
 	glow_worm_ceiling(area, data, ai, vi, bi)
-	if math.random() < STALCHA then
+	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
 		subterrane:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
@@ -256,7 +256,7 @@ subterrane:register_biome({
 
 local algae_floor = function(area, data, ai, vi, bi)
 	data[vi] = c_algae
-	if math.random() < STAGCHA then
+	if subterrane:vertically_consistent_random(vi, area) < STAGCHA then
 		subterrane:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(25) == 1 then
@@ -270,7 +270,7 @@ end
 local algae_ceiling = function(area, data, ai, vi, bi)
 	glow_worm_ceiling(area, data, ai, vi, bi)
 	
-	if math.random() < STALCHA then
+	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
 		subterrane:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(25) == 1 then
@@ -301,7 +301,7 @@ local glaciated_floor = function(area, data, ai, vi, bi)
 	data[bi] = c_thinice
 	if math.random() < ICICHA then --if glaciated, place icicles
 		data[ai] = c_iciu
-	elseif math.random() < STAGCHA then
+	elseif subterrane:vertically_consistent_random(vi, area) < STAGCHA then
 		subterrane:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(3) == 1 then
@@ -317,7 +317,7 @@ local glaciated_ceiling = function(area, data, ai, vi, bi)
 		data[vi] = c_icid
 	end
 	glow_worm_ceiling(area, data, ai, vi, bi)
-	if math.random() < STALCHA then
+	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
 		subterrane:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(3) == 1 then
@@ -348,7 +348,7 @@ local deep_glaciated_floor = function(area, data, ai, vi, bi)
 	data[bi] = c_ice
 	if math.random() < ICICHA then --if glaciated, place icicles
 		data[ai] = c_iciu
-	elseif math.random() < STAGCHA then
+	elseif subterrane:vertically_consistent_random(vi, area) < STAGCHA then
 		subterrane:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(3) == 1 then
@@ -365,7 +365,7 @@ local deep_glaciated_ceiling = function(area, data, ai, vi, bi)
 	end
 	glow_worm_ceiling(area, data, ai, vi, bi)
 	
-	if math.random() < STALCHA then
+	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
 		subterrane:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(3) == 1 then
@@ -449,7 +449,7 @@ local salt_floor = function(area, data, ai, vi, bi)
 		data[ai] = gems[gidx]
 	elseif math.random() < STAGCHA then
 		salt_stalagmite(vi, area, data)
-	elseif math.random() < STAGCHA then
+	elseif subterrane:vertically_consistent_random(vi, area) < STAGCHA then
 		subterrane:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
@@ -463,7 +463,7 @@ end
 local salt_ceiling = function(area, data, ai, vi, bi)
 	glow_worm_ceiling(area, data, ai, vi, bi, 7)
 	
-	if math.random() < STALCHA then
+	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
 		subterrane:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
@@ -498,7 +498,7 @@ local obsidian_floor = function(area, data, ai, vi, bi)
 	end
 	if math.random() < FLACHA then --neverending flames
 		data[ai] = c_flame
-	elseif math.random() < STAGCHA then
+	elseif subterrane:vertically_consistent_random(vi, area) < STAGCHA then
 		subterrane:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
@@ -512,7 +512,7 @@ end
 local obsidian_ceiling = function(area, data, ai, vi, bi)
 	glow_worm_ceiling(area, data, ai, vi, bi, 8)
 	
-	if math.random() < STALCHA then
+	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
 		subterrane:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
@@ -558,7 +558,7 @@ local coal_floor = function(area, data, ai, vi, bi)
 			sidx = 1
 		end
 		data[ai] = spikes[sidx]
-	elseif math.random() < STAGCHA then
+	elseif subterrane:vertically_consistent_random(vi, area) < STAGCHA then
 		subterrane:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
@@ -585,7 +585,7 @@ local coal_ceiling = function(area, data, ai, vi, bi)
 			end
 		end
 	end
-	if math.random() < STALCHA then
+	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
 		subterrane:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	end
 	if math.random() < CRYSTAL then

@@ -2,6 +2,15 @@
 
 --FUNCTIONS--
 
+function subterrane:vertically_consistent_random(vi, area)
+	local pos = area:position(vi)
+	local next_seed = math.random(1, 1000000000)
+	math.randomseed(pos.x + pos.z * 2 ^ 8)
+	local output = math.random()
+	math.randomseed(next_seed)
+	return output
+end
+
 function subterrane:above_solid(x,y,z,area,data)
 	local c_air = minetest.get_content_id("air")
 	
