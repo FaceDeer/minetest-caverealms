@@ -116,55 +116,6 @@ function caverealms:stalactite(vi, area, data, min_height, max_height, base_mate
 end
 
 
---glowing crystal stalagmite spawner
-function caverealms:salt_stalagmite(vi, area, data)
-	local pos = area:position(vi)
-	local x = pos.x
-	local y = pos.y
-	local z = pos.z
-
-	if not caverealms:below_solid(x,y,z,area,data) then
-		return
-	end
-	
-	--contest ids
-	local c_stone = minetest.get_content_id("default:stone")
-	local c_salt = minetest.get_content_id("caverealms:salt_crystal")
-	
-	local scale = math.random(2, 4)
-	if scale == 2 then
-		for j = -3, 3 do
-			for k = -3, 3 do
-				local vi = area:index(x+j, y, z+k)
-				data[vi] = c_stone
-				if math.abs(j) ~= 3 and math.abs(k) ~= 3 then
-					local vi = area:index(x+j, y+1, z+k)
-					data[vi] = c_stone
-				end
-			end
-		end
-	else
-		for j = -4, 4 do
-			for k = -4, 4 do
-				local vi = area:index(x+j, y, z+k)
-				data[vi] = c_stone
-				if math.abs(j) ~= 4 and math.abs(k) ~= 4 then
-					local vi = area:index(x+j, y+1, z+k)
-					data[vi] = c_stone
-				end
-			end
-		end
-	end
-	for j = 2, scale + 2 do --y
-		for k = -2, scale - 2 do
-			for l = -2, scale - 2 do
-				local vi = area:index(x+k, y+j, z+l)
-				data[vi] = c_salt -- make cube
-			end
-		end
-	end
-end
-
 --function to create giant 'shrooms
 function caverealms:giant_shroom(vi, area, data)
 	local pos = area:position(vi)

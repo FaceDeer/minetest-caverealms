@@ -74,6 +74,7 @@ local c_mycena = minetest.get_content_id("caverealms:mycena")
 local c_rubore = minetest.get_content_id("caverealms:glow_ruby_ore")
 local c_ruby = minetest.get_content_id("caverealms:glow_ruby")
 local c_salt = minetest.get_content_id("caverealms:stone_with_salt")
+local c_saltcrystal = minetest.get_content_id("caverealms:salt_crystal")
 local c_saltgem1 = minetest.get_content_id("caverealms:salt_gem")
 local c_saltgem2 = minetest.get_content_id("caverealms:salt_gem_2")
 local c_saltgem3 = minetest.get_content_id("caverealms:salt_gem_3")
@@ -384,6 +385,52 @@ caverealms:register_biome({
 -----------------------------------------------------------------------------------------------------------
 -- Salt
 
+
+--glowing crystal stalagmite spawner
+local salt_stalagmite = function(vi, area, data)
+	local pos = area:position(vi)
+	local x = pos.x
+	local y = pos.y
+	local z = pos.z
+
+	if not caverealms:below_solid(x,y,z,area,data) then
+		return
+	end
+		
+	local scale = math.random(2, 4)
+	if scale == 2 then
+		for j = -3, 3 do
+			for k = -3, 3 do
+				local vi = area:index(x+j, y, z+k)
+				data[vi] = c_stone
+				if math.abs(j) ~= 3 and math.abs(k) ~= 3 then
+					local vi = area:index(x+j, y+1, z+k)
+					data[vi] = c_stone
+				end
+			end
+		end
+	else
+		for j = -4, 4 do
+			for k = -4, 4 do
+				local vi = area:index(x+j, y, z+k)
+				data[vi] = c_stone
+				if math.abs(j) ~= 4 and math.abs(k) ~= 4 then
+					local vi = area:index(x+j, y+1, z+k)
+					data[vi] = c_stone
+				end
+			end
+		end
+	end
+	for j = 2, scale + 2 do --y
+		for k = -2, scale - 2 do
+			for l = -2, scale - 2 do
+				local vi = area:index(x+k, y+j, z+l)
+				data[vi] = c_saltcrystal -- make cube
+			end
+		end
+	end
+end
+
 local salt_floor = function(area, data, ai, vi, bi)
 	data[vi] = c_salt
 	data[bi] = c_salt
@@ -396,7 +443,7 @@ local salt_floor = function(area, data, ai, vi, bi)
 		end
 		data[ai] = gems[gidx]
 	elseif math.random() < STAGCHA then
-		caverealms:salt_stalagmite(vi, area, data)
+		salt_stalagmite(vi, area, data)
 	elseif math.random() < STAGCHA then
 		caverealms:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
