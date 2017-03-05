@@ -23,6 +23,7 @@ dofile(modpath.."/abms.lua") --abm definitions
 dofile(modpath.."/caverealms_biomes.lua")
 
 local c_lava = minetest.get_content_id("default:lava_source")
+local c_lava_flowing = minetest.get_content_id("default:lava_flowing")
 local c_stone = minetest.get_content_id("default:stone")
 
 -- 3D noise for caves
@@ -142,7 +143,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				if (nvals_cave[nixyz] + nvals_wave[nixyz])/2 > tcave then --if node falls within cave threshold
 					data[vi] = biome.fill_node --hollow it out to make the cave
 				elseif (nvals_cave[nixyz] + nvals_wave[nixyz])/2 > tcave - 0.2 then -- Eliminate nearby lava to keep it from spilling in
-					if data[vi] == c_lava then
+					if data[vi] == c_lava or data[vi] == c_lava_flowing then
 						data[vi] = biome.fill_node
 					end
 				end
