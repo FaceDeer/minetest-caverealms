@@ -87,6 +87,9 @@ local c_spike4 = minetest.get_content_id("caverealms:spike_4")
 local c_spike5 = minetest.get_content_id("caverealms:spike_5")
 local c_thinice = minetest.get_content_id("caverealms:thin_ice")
 local c_worm = minetest.get_content_id("caverealms:glow_worm")
+local c_stem = minetest.get_content_id("caverealms:mushroom_stem")
+local c_cap = minetest.get_content_id("caverealms:mushroom_cap")
+local c_gills = minetest.get_content_id("caverealms:mushroom_gills")
 
 local glow_worm_ceiling = function(area, data, ai, vi, bi)
 	if math.random() < WORMCHA then
@@ -210,7 +213,9 @@ local fungal_floor = function(area, data, ai, vi, bi)
 	elseif math.random() < MYCCHA then --mycena mushrooms
 		data[ai] = c_mycena
 	elseif math.random() < GIANTCHA then --giant mushrooms
-		caverealms:giant_shroom(vi, area, data)
+		local cap_radius = math.random(2,5)
+		local stem_height = math.random(3,7)
+		caverealms:giant_shroom(vi, area, data, c_stem, c_cap, c_gills, stem_height, cap_radius)
 	elseif math.random() < STAGCHA then
 		caverealms:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then

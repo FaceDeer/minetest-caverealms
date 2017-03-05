@@ -116,8 +116,8 @@ function caverealms:stalactite(vi, area, data, min_height, max_height, base_mate
 end
 
 
---function to create giant 'shrooms
-function caverealms:giant_shroom(vi, area, data)
+--function to create giant 'shrooms. Cap radius works well from about 2-6
+function caverealms:giant_shroom(vi, area, data, stem_material, cap_material, gill_material, stem_height, cap_radius)
 	local pos = area:position(vi)
 	local x = pos.x
 	local y = pos.y
@@ -126,124 +126,46 @@ function caverealms:giant_shroom(vi, area, data)
 	if not caverealms:below_solid(x,y,z,area,data) then
 		return
 	end
-
-	--as usual, grab the content ID's
-	local c_stem = minetest.get_content_id("caverealms:mushroom_stem")
-	local c_cap = minetest.get_content_id("caverealms:mushroom_cap")
-	local c_gills = minetest.get_content_id("caverealms:mushroom_gills")
-
-	z = z - 5
+	
+	z = z - cap_radius
 	--cap
-	for k = -5, 5 do
-	for l = -5, 5 do
-		if k*k + l*l <= 25 then
-			local vi = area:index(x+k, y+5, z+l)
-			data[vi] = c_cap
+	for k = -cap_radius, cap_radius do
+	for l = -cap_radius, cap_radius do
+		if k*k + l*l <= cap_radius*cap_radius then
+			local vi = area:index(x+k, y+stem_height, z+l)
+			data[vi] = cap_material
 		end
-		if k*k + l*l <= 16 then
-			local vi = area:index(x+k, y+6, z+l)
-			data[vi] = c_cap
-			vi = area:index(x+k, y+5, z+l)
-			data[vi] = c_gills
+		if k*k + l*l <= (cap_radius-1)*(cap_radius-1) and (cap_radius-1) > 0 then
+			local vi = area:index(x+k, y+stem_height+1, z+l)
+			data[vi] = cap_material
+			vi = area:index(x+k, y+stem_height, z+l)
+			data[vi] = gill_material
 		end
-		if k*k + l*l <= 9 then
-			local vi = area:index(x+k, y+7, z+l)
-			data[vi] = c_cap
+		if k*k + l*l <= (cap_radius-2)*(cap_radius-2) and (cap_radius-2) > 0 then
+			local vi = area:index(x+k, y+stem_height+2, z+l)
+			data[vi] = cap_material
 		end
-		if k*k + l*l <= 4 then
-			local vi = area:index(x+k, y+8, z+l)
-			data[vi] = c_cap
+		if k*k + l*l <= (cap_radius-3)*(cap_radius-3) and (cap_radius-3) > 0 then
+			local vi = area:index(x+k, y+stem_height+3, z+l)
+			data[vi] = cap_material
 		end
 	end
 	end
 	--stem
-	for j = 0, 5 do
-		for k = -1,1 do
-			local vi = area:index(x+k, y+j, z)
-			data[vi] = c_stem
-			if k == 0 then
-				local ai = area:index(x, y+j, z+1)
-				data[ai] = c_stem
-				ai = area:index(x, y+j, z-1)
-				data[ai] = c_stem
-			end
+	for j = 0, stem_height do
+		local vi = area:index(x, y+j, z)
+		data[vi] = stem_material
+		if cap_radius > 3 then
+			local ai = area:index(x, y+j, z+1)
+			data[ai] = stem_material
+			ai = area:index(x, y+j, z-1)
+			data[ai] = stem_material
+			ai = area:index(x+1, y+j, z)
+			data[ai] = stem_material
+			ai = area:index(x-1, y+j, z)
+			data[ai] = stem_material
 		end
 	end
-end
-
-function caverealms:legacy_giant_shroom(x, y, z, area, data) --leftovers :P
-	--as usual, grab the content ID's
-	local c_stem = minetest.get_content_id("caverealms:mushroom_stem")
-	local c_cap = minetest.get_content_id("caverealms:mushroom_cap")
-	
-	z = z - 4
-	--cap
-	for k = -4, 4 do
-	for l = -4, 4 do
-		if k*k + l*l <= 16 then
-			local vi = area:index(x+k, y+5, z+l)
-			data[vi] = c_cap
-		end
-		if k*k + l*l <= 9 then
-			local vi = area:index(x+k, y+4, z+l)
-			data[vi] = c_cap
-			vi = area:index(x+k, y+6, z+l)
-			data[vi] = c_cap
-		end
-		if k*k + l*l <= 4 then
-			local vi = area:index(x+k, y+7, z+l)
-			data[vi] = c_cap
-		end
-	end
-	end
-	--stem
-	for j = 0, 4 do
-		for k = -1,1 do
-			local vi = area:index(x+k, y+j, z)
-			data[vi] = c_stem
-			if k == 0 then
-				local ai = area:index(x, y+j, z+1)
-				data[ai] = c_stem
-				ai = area:index(x, y+j, z-1)
-				data[ai] = c_stem
-			end
-		end
-	end
-end
-
--- Experimental and very geometric function to create giant octagonal crystals in a variety of random directions
--- Uses calculations for points on a sphere, lines in geometric space
--- CURRENTLY USELESS, NOT LIKELY TO BE IMPLEMENTED SOON
-function caverealms:octagon(x, y, z, area, data)
-	--Grab content id's... diamond is a placeholder
-	local c_crys = minetest.get_content_id("default:diamondblock")
-	
-	local MAX_LEN = 25 --placeholder for a config file constant
-	local MIN_LEN = 10 --ditto
-	
-	local target = {x=0, y=MAX_LEN, z=0} -- 3D space coordinate of the crystal's endpoint
-	
-	local length = math.random(MIN_LEN, MAX_LEN) --get a random length for the crystal
-	local dir1 = math.random(0, 359) -- Random direction in degrees around a circle
-	local dir2 = math.random(0, 180) -- Random direction in a semicircle, for 3D location
-	
-	--OK, so now make a 3D point out of those spherical coordinates...
-	target.x = math.ceil(length * math.cos(dir1 * 3.14/180)) --Round it up to make sure it's a nice integer for the coordinate system
-	target.z = math.ceil(length * math.sin(dir1 * 3.14/180))
-	--Y is also simple, just use dir2.  Note that, due to how these calculations are carried out, this is not a coordinate on a perfect sphere. This is OK for our purposes.
-	target.y = math.ceil(length * math.sin(dir2 * 3.14/180))
-	
-	-- Now, determine if the crystal should go up or down, based on where it is
-	if (caverealms:above_solid(x,y,z,area,data)) then
-		target.y = target.y * -1
-	end
-	
-	--Bring the coordinates near the area you're generating
-	target.x = target.x + x
-	target.y = target.y + y
-	target.z = target.z + z
-	
-	
 end
 
 local CAVESPAWN = caverealms.config.cavespawn --false by default.  Change to true in order to spawn in the caves when joining as a new player or respawning after death
