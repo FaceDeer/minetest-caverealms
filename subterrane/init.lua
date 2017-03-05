@@ -177,7 +177,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			for x = x0, x1 do -- for each node do
 				
 				--determine biome
-				if math.floor(((nvals_cave[nixyz2] + nvals_wave[nixyz2])/2)*100) == math.floor(tcave*100) then
+				if math.floor(((nvals_cave[nixyz2] + nvals_wave[nixyz2])/2)*50) == math.floor(tcave*50) then
 					local n_biome = nvals_biome[nixz2] --make an easier reference to the noise
 					local biome = get_biome(y, n_biome)
 					--ceiling
