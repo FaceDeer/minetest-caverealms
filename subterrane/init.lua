@@ -4,11 +4,11 @@
 -- Depends default
 -- License: code WTFPL
 
-caverealms = {} --create a container for functions and constants
-caverealms.biomes = {}
+subterrane = {} --create a container for functions and constants
+subterrane.biomes = {}
 
-function caverealms:register_biome(biome_def)
-	table.insert(caverealms.biomes, biome_def)
+function subterrane:register_biome(biome_def)
+	table.insert(subterrane.biomes, biome_def)
 end
 
 --grab a shorthand for the filepath of the mod
@@ -16,15 +16,13 @@ local modpath = minetest.get_modpath(minetest.get_current_modname())
 
 --load companion lua files
 dofile(modpath.."/config.lua") --configuration file; holds various constants
-dofile(modpath.."/crafting.lua") --crafting recipes
-dofile(modpath.."/nodes.lua") --node definitions
 dofile(modpath.."/functions.lua") --function definitions
-dofile(modpath.."/abms.lua") --abm definitions
-dofile(modpath.."/caverealms_biomes.lua")
 
 local c_lava = minetest.get_content_id("default:lava_source")
 local c_lava_flowing = minetest.get_content_id("default:lava_flowing")
 local c_stone = minetest.get_content_id("default:stone")
+
+local c_air = minetest.get_content_id("air")
 
 -- 3D noise for caves
 
@@ -61,9 +59,9 @@ local np_biome = {
 
 -- Stuff
 
-local YMIN = caverealms.config.ymin -- Approximate realm limits.
-local YMAX = caverealms.config.ymax
-local TCAVE = caverealms.config.tcave --0.5 -- Cave threshold. 1 = small rare caves, 0.5 = 1/3rd ground volume, 0 = 1/2 ground volume
+local YMIN = subterrane.config.ymin -- Approximate realm limits.
+local YMAX = subterrane.config.ymax
+local TCAVE = subterrane.config.tcave --0.5 -- Cave threshold. 1 = small rare caves, 0.5 = 1/3rd ground volume, 0 = 1/2 ground volume
 local BLEND = 128 -- Cave blend distance near YMIN, YMAX
 
 local yblmin = YMIN + BLEND * 1.5
@@ -71,7 +69,7 @@ local yblmax = YMAX - BLEND * 1.5
 
 
 local get_biome = function(y, n_biome)
-	for _, biome in ipairs(caverealms.biomes) do
+	for _, biome in ipairs(subterrane.biomes) do
 		if
 			(biome.y_max == nil or y < biome.y_max) and
 			(biome.y_min == nil or y > biome.y_min) and
@@ -86,7 +84,7 @@ end
 -- On generated function
 
 minetest.register_on_generated(function(minp, maxp, seed)
-	--if out of range of caverealms limits
+	--if out of range of subterrane limits
 	if minp.y > YMAX or maxp.y < YMIN then
 		return --quit; otherwise, you'd have stalagmites all over the place
 	end
@@ -100,7 +98,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	local y0 = minp.y
 	local z0 = minp.z
 	
-	print ("[caverealms] chunk minp ("..x0.." "..y0.." "..z0..")") --tell people you are generating a chunk
+	print ("[subterrane] chunk minp ("..x0.." "..y0.." "..z0..")") --tell people you are generating a chunk
 	
 	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
 	local area = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
@@ -139,7 +137,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 
 				local n_biome = nvals_biome[nixz] --make an easier reference to the noise
 				local biome = get_biome(y, n_biome)		
-			
+
 				if (nvals_cave[nixyz] + nvals_wave[nixyz])/2 > tcave then --if node falls within cave threshold
 					data[vi] = biome.fill_node --hollow it out to make the cave
 				elseif (nvals_cave[nixyz] + nvals_wave[nixyz])/2 > tcave - 0.2 then -- Eliminate nearby lava to keep it from spilling in
@@ -170,10 +168,9 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			for x = x0, x1 do -- for each node do
 				
 				--determine biome
-				local n_biome = nvals_biome[nixz2] --make an easier reference to the noise
-				local biome = get_biome(y, n_biome)				
-				
 				if math.floor(((nvals_cave[nixyz2] + nvals_wave[nixyz2])/2)*100) == math.floor(tcave*100) then
+					local n_biome = nvals_biome[nixz2] --make an easier reference to the noise
+					local biome = get_biome(y, n_biome)
 					--ceiling
 					local ai = area:index(x,y+1,z) --above index
 					local bi = area:index(x,y-1,z) --below index
@@ -205,6 +202,6 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	vm:write_to_map(data)
 
 	local chugent = math.ceil((os.clock() - t1) * 1000) --grab how long it took
-	print ("[caverealms] "..chugent.." ms") --tell people how long
+	print ("[subterrane] "..chugent.." ms") --tell people how long
 end)
-print("[caverealms] loaded!")
+print("[subterrane] loaded!")

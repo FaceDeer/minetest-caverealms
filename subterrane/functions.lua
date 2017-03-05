@@ -1,8 +1,8 @@
---CaveRealms functions.lua
+--subterrane functions.lua
 
 --FUNCTIONS--
 
-function caverealms:above_solid(x,y,z,area,data)
+function subterrane:above_solid(x,y,z,area,data)
 	local c_air = minetest.get_content_id("air")
 	
 	local c_vac
@@ -19,7 +19,7 @@ function caverealms:above_solid(x,y,z,area,data)
 		return true
 	end
 end
-function caverealms:below_solid(x,y,z,area,data)
+function subterrane:below_solid(x,y,z,area,data)
 	local c_air = minetest.get_content_id("air")
 	
 	local c_vac
@@ -38,13 +38,13 @@ function caverealms:below_solid(x,y,z,area,data)
 end
 
 --stalagmite spawner
-function caverealms:stalagmite(vi, area, data, min_height, max_height, base_material, root_material, shaft_material)
+function subterrane:stalagmite(vi, area, data, min_height, max_height, base_material, root_material, shaft_material)
 	local pos = area:position(vi)
 	local x = pos.x
 	local y = pos.y
 	local z = pos.z
 
-	if not caverealms:below_solid(x,y,z,area,data) then
+	if not subterrane:below_solid(x,y,z,area,data) then
 		return
 	end
 
@@ -77,13 +77,13 @@ function caverealms:stalagmite(vi, area, data, min_height, max_height, base_mate
 end
 
 --stalactite spawner
-function caverealms:stalactite(vi, area, data, min_height, max_height, base_material, root_material, shaft_material)
+function subterrane:stalactite(vi, area, data, min_height, max_height, base_material, root_material, shaft_material)
 	local pos = area:position(vi)
 	local x = pos.x
 	local y = pos.y
 	local z = pos.z
 
-	if not caverealms:above_solid(x,y,z,area,data) then
+	if not subterrane:above_solid(x,y,z,area,data) then
 		return
 	end
 
@@ -117,13 +117,13 @@ end
 
 
 --function to create giant 'shrooms. Cap radius works well from about 2-6
-function caverealms:giant_shroom(vi, area, data, stem_material, cap_material, gill_material, stem_height, cap_radius)
+function subterrane:giant_shroom(vi, area, data, stem_material, cap_material, gill_material, stem_height, cap_radius)
 	local pos = area:position(vi)
 	local x = pos.x
 	local y = pos.y
 	local z = pos.z
 
-	if not caverealms:below_solid(x,y,z,area,data) then
+	if not subterrane:below_solid(x,y,z,area,data) then
 		return
 	end
 	
@@ -168,7 +168,7 @@ function caverealms:giant_shroom(vi, area, data, stem_material, cap_material, gi
 	end
 end
 
-local CAVESPAWN = caverealms.config.cavespawn --false by default.  Change to true in order to spawn in the caves when joining as a new player or respawning after death
+local CAVESPAWN = subterrane.config.cavespawn --false by default.  Change to true in order to spawn in the caves when joining as a new player or respawning after death
 local spawned = false;
 local ydepth = -960;
 
@@ -223,16 +223,16 @@ function spawnplayer(player, ydepth)
 		persist = 0.67
 	}
 	
-	local YMIN = caverealms.config.ymin -- Approximate realm limits.
-	local YMAX = caverealms.config.ymax
-	local TCAVE = caverealms.config.tcave --0.5 -- Cave threshold. 1 = small rare caves, 0.5 = 1/3rd ground volume, 0 = 1/2 ground volume
+	local YMIN = subterrane.config.ymin -- Approximate realm limits.
+	local YMAX = subterrane.config.ymax
+	local TCAVE = subterrane.config.tcave --0.5 -- Cave threshold. 1 = small rare caves, 0.5 = 1/3rd ground volume, 0 = 1/2 ground volume
 	local BLEND = 128 -- Cave blend distance near YMIN, YMAX
 	
 	local yblmin = YMIN + BLEND * 1.5
 	local yblmax = YMAX - BLEND * 1.5
 	
 	for chunk = 1, 64 do
-		print ("[caverealms] searching for spawn "..chunk)
+		print ("[subterrane] searching for spawn "..chunk)
 		local x0 = 80 * math.random(-32, 32) - 32
 		local z0 = 80 * math.random(-32, 32) - 32
 		local y0 = ydepth-32
@@ -290,7 +290,7 @@ function spawnplayer(player, ydepth)
 			break
 		end
 	end
-	print ("[caverealms] spawn player ("..xsp.." "..ysp.." "..zsp..")")
+	print ("[subterrane] spawn player ("..xsp.." "..ysp.." "..zsp..")")
 	player:setpos({x=xsp, y=ysp, z=zsp})
 	spawned = true
 end

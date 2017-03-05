@@ -121,12 +121,12 @@ local dungeon_floor = function(area, data, ai, vi, bi)
 	elseif math.random() < FORTCHA and FORTRESSES then --DM FORTRESS
 		data[ai] = c_fortress
 	elseif math.random() < STAGCHA then
-		caverealms:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		subterrane:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_meseore, c_mesecry)
+			subterrane:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_meseore, c_mesecry)
 		else
-			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_rubore, c_ruby)
+			subterrane:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_rubore, c_ruby)
 		end
 	end
 end
@@ -134,17 +134,17 @@ end
 local dungeon_ceiling = function(area, data, ai, vi, bi)
 	glow_worm_ceiling(area, data, ai, vi, bi)
 	if math.random() < STALCHA then
-		caverealms:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
+		subterrane:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_meseore, c_mesecry)
+			subterrane:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_meseore, c_mesecry)
 		else
-			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_rubore, c_ruby)
+			subterrane:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_rubore, c_ruby)
 		end
 	end
 end
 
-caverealms:register_biome({
+subterrane:register_biome({
 	name = "dungeon",
 	y_min = DM_BOT,
 	y_max = DM_TOP,
@@ -169,12 +169,12 @@ local moss_floor = function(area, data, ai, vi, bi)
 		end
 		data[ai] = gems[gidx]
 	elseif math.random() < STAGCHA then
-		caverealms:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		subterrane:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
+			subterrane:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
 		else
-			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
+			subterrane:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
 		end
 	end
 end
@@ -182,17 +182,17 @@ end
 local moss_ceiling = function(area, data, ai, vi, bi)
 	glow_worm_ceiling(area, data, ai, vi, bi)
 	if math.random() < STALCHA then
-		caverealms:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
+		subterrane:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_emore, c_emerald)
+			subterrane:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_emore, c_emerald)
 		else
-			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
+			subterrane:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
 		end
 	end	
 end
 
-caverealms:register_biome({
+subterrane:register_biome({
 	name = "moss",
 	y_min = DEEP_CAVE,
 	y_max = nil,
@@ -215,14 +215,14 @@ local fungal_floor = function(area, data, ai, vi, bi)
 	elseif math.random() < GIANTCHA then --giant mushrooms
 		local cap_radius = math.random(2,5)
 		local stem_height = math.random(3,7)
-		caverealms:giant_shroom(vi, area, data, c_stem, c_cap, c_gills, stem_height, cap_radius)
+		subterrane:giant_shroom(vi, area, data, c_stem, c_cap, c_gills, stem_height, cap_radius)
 	elseif math.random() < STAGCHA then
-		caverealms:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		subterrane:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
+			subterrane:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
 		else
-			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
+			subterrane:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
 		end
 	end
 end
@@ -230,17 +230,17 @@ end
 local fungal_ceiling = function(area, data, ai, vi, bi)
 	glow_worm_ceiling(area, data, ai, vi, bi)
 	if math.random() < STALCHA then
-		caverealms:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
+		subterrane:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
+			subterrane:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
 		else
-			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_emore, c_emerald)
+			subterrane:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_emore, c_emerald)
 		end
 	end
 end
 
-caverealms:register_biome({
+subterrane:register_biome({
 	name = "fungal",
 	y_min = DEEP_CAVE,
 	y_max = nil,
@@ -257,12 +257,12 @@ caverealms:register_biome({
 local algae_floor = function(area, data, ai, vi, bi)
 	data[vi] = c_algae
 	if math.random() < STAGCHA then
-		caverealms:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		subterrane:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(25) == 1 then
-			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_meseore, c_mesecry)
+			subterrane:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_meseore, c_mesecry)
 		else
-			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
+			subterrane:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
 		end
 	end
 end
@@ -271,18 +271,18 @@ local algae_ceiling = function(area, data, ai, vi, bi)
 	glow_worm_ceiling(area, data, ai, vi, bi)
 	
 	if math.random() < STALCHA then
-		caverealms:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
+		subterrane:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(25) == 1 then
-			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_meseore, c_mesecry)
+			subterrane:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_meseore, c_mesecry)
 		else
-			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_emore, c_emerald)
+			subterrane:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_emore, c_emerald)
 		end
 	end
 
 end
 
-caverealms:register_biome({
+subterrane:register_biome({
 	name = "algae",
 	y_min = DEEP_CAVE,
 	y_max = nil,
@@ -302,12 +302,12 @@ local glaciated_floor = function(area, data, ai, vi, bi)
 	if math.random() < ICICHA then --if glaciated, place icicles
 		data[ai] = c_iciu
 	elseif math.random() < STAGCHA then
-		caverealms:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		subterrane:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(3) == 1 then
-			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
+			subterrane:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
 		else
-			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_ice, c_ice, c_thinice)
+			subterrane:stalagmite(vi, area, data, 5, H_CRY, c_ice, c_ice, c_thinice)
 		end
 	end
 end
@@ -318,17 +318,17 @@ local glaciated_ceiling = function(area, data, ai, vi, bi)
 	end
 	glow_worm_ceiling(area, data, ai, vi, bi)
 	if math.random() < STALCHA then
-		caverealms:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
+		subterrane:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(3) == 1 then
-			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
+			subterrane:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
 		else
-			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_ice, c_ice, c_thinice)
+			subterrane:stalactite(vi, area, data, 6, H_CLAC, c_ice, c_ice, c_thinice)
 		end
 	end
 end
 
-caverealms:register_biome({
+subterrane:register_biome({
 	name = "glaciated",
 	y_min = nil,
 	y_max = nil,
@@ -349,12 +349,12 @@ local deep_glaciated_floor = function(area, data, ai, vi, bi)
 	if math.random() < ICICHA then --if glaciated, place icicles
 		data[ai] = c_iciu
 	elseif math.random() < STAGCHA then
-		caverealms:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		subterrane:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(3) == 1 then
-			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
+			subterrane:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
 		else
-			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_ice, c_ice, c_thinice)
+			subterrane:stalagmite(vi, area, data, 5, H_CRY, c_ice, c_ice, c_thinice)
 		end
 	end
 end
@@ -366,17 +366,17 @@ local deep_glaciated_ceiling = function(area, data, ai, vi, bi)
 	glow_worm_ceiling(area, data, ai, vi, bi)
 	
 	if math.random() < STALCHA then
-		caverealms:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
+		subterrane:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(3) == 1 then
-			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
+			subterrane:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
 		else
-			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_ice, c_ice, c_thinice)
+			subterrane:stalactite(vi, area, data, 6, H_CLAC, c_ice, c_ice, c_thinice)
 		end
 	end	
 end
 
-caverealms:register_biome({
+subterrane:register_biome({
 	name = "deep glaciated",
 	y_min = nil,
 	y_max = nil,
@@ -398,7 +398,7 @@ local salt_stalagmite = function(vi, area, data)
 	local y = pos.y
 	local z = pos.z
 
-	if not caverealms:below_solid(x,y,z,area,data) then
+	if not subterrane:below_solid(x,y,z,area,data) then
 		return
 	end
 		
@@ -450,12 +450,12 @@ local salt_floor = function(area, data, ai, vi, bi)
 	elseif math.random() < STAGCHA then
 		salt_stalagmite(vi, area, data)
 	elseif math.random() < STAGCHA then
-		caverealms:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		subterrane:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_rubore, c_ruby)
+			subterrane:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_rubore, c_ruby)
 		else
-			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
+			subterrane:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
 		end
 	end
 end
@@ -464,17 +464,17 @@ local salt_ceiling = function(area, data, ai, vi, bi)
 	glow_worm_ceiling(area, data, ai, vi, bi, 7)
 	
 	if math.random() < STALCHA then
-		caverealms:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
+		subterrane:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_rubore, c_ruby)
+			subterrane:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_rubore, c_ruby)
 		else
-			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
+			subterrane:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
 		end
 	end	
 end
 
-caverealms:register_biome({
+subterrane:register_biome({
 	name = "salt crystal",
 	y_min = nil,
 	y_max = DEEP_CAVE,
@@ -499,12 +499,12 @@ local obsidian_floor = function(area, data, ai, vi, bi)
 	if math.random() < FLACHA then --neverending flames
 		data[ai] = c_flame
 	elseif math.random() < STAGCHA then
-		caverealms:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		subterrane:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
+			subterrane:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
 		else
-			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_rubore, c_ruby)
+			subterrane:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_rubore, c_ruby)
 		end
 	end
 end
@@ -513,17 +513,17 @@ local obsidian_ceiling = function(area, data, ai, vi, bi)
 	glow_worm_ceiling(area, data, ai, vi, bi, 8)
 	
 	if math.random() < STALCHA then
-		caverealms:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
+		subterrane:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_emore, c_emerald)
+			subterrane:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_emore, c_emerald)
 		else
-			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_rubore, c_ruby)
+			subterrane:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_rubore, c_ruby)
 		end
 	end
 end
 
-caverealms:register_biome({
+subterrane:register_biome({
 	name = "glow obsidian",
 	y_min = nil,
 	y_max = DEEP_CAVE,
@@ -559,12 +559,12 @@ local coal_floor = function(area, data, ai, vi, bi)
 		end
 		data[ai] = spikes[sidx]
 	elseif math.random() < STAGCHA then
-		caverealms:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		subterrane:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_meseore, c_mesecry)
+			subterrane:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_meseore, c_mesecry)
 		else
-			caverealms:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_amethore, c_ameth)
+			subterrane:stalagmite(vi, area, data, 5, H_CRY, c_stone, c_amethore, c_ameth)
 		end
 	end
 end
@@ -586,18 +586,18 @@ local coal_ceiling = function(area, data, ai, vi, bi)
 		end
 	end
 	if math.random() < STALCHA then
-		caverealms:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
+		subterrane:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	end
 	if math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_meseore, c_mesecry)
+			subterrane:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_meseore, c_mesecry)
 		else
-			caverealms:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_amethore, c_ameth)
+			subterrane:stalactite(vi, area, data, 6, H_CLAC, c_stone, c_amethore, c_ameth)
 		end
 	end
 end
 
-caverealms:register_biome({
+subterrane:register_biome({
 	name = "coal dust",
 	y_min = nil,
 	y_max = DEEP_CAVE,
