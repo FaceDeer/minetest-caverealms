@@ -2,9 +2,6 @@
 
 --FUNCTIONS--
 
-local H_LAC = caverealms.config.h_lac --20 --...stalactites
-local H_CLAC = caverealms.config.h_clac --13 --max height of glow crystal stalactites
-
 function caverealms:above_solid(x,y,z,area,data)
 	local c_air = minetest.get_content_id("air")
 	
