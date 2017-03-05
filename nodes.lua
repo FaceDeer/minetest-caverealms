@@ -456,7 +456,7 @@ minetest.register_node("caverealms:fungus", {
 	inventory_image = "caverealms_fungi.png",
 	wield_image = "caverealms_fungi.png",
 	is_ground_content = true,
-	groups = {oddly_breakable_by_hand=3},
+	groups = {oddly_breakable_by_hand=3, flammable = 1},
 	light_source = 5,
 	paramtype = "light",
 	drawtype = "plantlike",
@@ -476,7 +476,7 @@ minetest.register_node("caverealms:mycena", {
 	inventory_image = "caverealms_mycena.png",
 	wield_image = "caverealms_mycena.png",
 	is_ground_content = true,
-	groups = {oddly_breakable_by_hand=3},
+	groups = {oddly_breakable_by_hand=3, flammable = 1},
 	light_source = 6,
 	paramtype = "light",
 	drawtype = "plantlike",
@@ -495,7 +495,8 @@ minetest.register_node("caverealms:mushroom_stem", {
 	description = "Giant Mushroom Stem",
 	tiles = {"caverealms_mushroom_stem.png"},
 	is_ground_content = true,
-	groups = {oddly_breakable_by_hand=1},
+	groups = {tree = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
+	sounds = default.node_sound_wood_defaults(),
 })
 
 --cap
@@ -503,7 +504,8 @@ minetest.register_node("caverealms:mushroom_cap", {
 	description = "Giant Mushroom Cap",
 	tiles = {"caverealms_mushroom_cap.png"},
 	is_ground_content = true,
-	groups = {oddly_breakable_by_hand=1},
+	groups = {tree = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
+	sounds = default.node_sound_wood_defaults(),
 })
 
 --gills
@@ -511,7 +513,8 @@ minetest.register_node("caverealms:mushroom_gills", {
 	description = "Giant Mushroom Gills",
 	tiles = {"caverealms_mushroom_gills.png"},
 	is_ground_content = true,
-	groups = {oddly_breakable_by_hand=1},
+	groups = {snappy = 3, leafdecay = 3, flammable = 2, leaves = 1},
+	sounds = default.node_sound_leaves_defaults(),
 	drawtype = "plantlike",
 	paramtype = "light",
 })
