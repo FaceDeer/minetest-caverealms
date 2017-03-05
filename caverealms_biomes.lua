@@ -520,13 +520,15 @@ end
 local coal_ceiling = function(area, data, ai, vi, bi)
 	if math.random() < WORMCHA then
 		data[vi] = c_worm
-		local bi = area:index(x,y-1,z)
 		data[bi] = c_worm
 		if math.random(2) == 1 then
-			local bbi = area:index(x,y-2,z)
+			local pos = area:position(vi)
+			pos.y = pos.y-2
+			local bbi = area:indexp(pos)
 			data[bbi] = c_worm
 			if math.random(2) ==1 then
-				local bbbi = area:index(x,y-3,z)
+				pos.y = pos.y-1
+				local bbbi = area:indexp(pos)
 				data[bbbi] = c_worm
 			end
 		end
