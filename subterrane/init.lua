@@ -22,8 +22,6 @@ local c_lava = minetest.get_content_id("default:lava_source")
 local c_lava_flowing = minetest.get_content_id("default:lava_flowing")
 local c_stone = minetest.get_content_id("default:stone")
 
-local c_air = minetest.get_content_id("air")
-
 -- 3D noise for caves
 
 local np_cave = {
