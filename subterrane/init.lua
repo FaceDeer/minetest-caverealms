@@ -81,6 +81,11 @@ local get_biome = function(y, n_biome)
 	return nil
 end
 
+ -- noise objects
+local nobj_cave = nil
+local nobj_wave = nil 
+local nobj_biome = nil 
+
 -- On generated function
 
 minetest.register_on_generated(function(minp, maxp, seed)
@@ -106,14 +111,18 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	
 	--mandatory values
 	local sidelen = x1 - x0 + 1 --length of a mapblock
-	local chulens = {x=sidelen, y=sidelen, z=sidelen} --table of chunk edges
-	local chulens2D = {x=sidelen, y=sidelen, z=1}
-	local minposxyz = {x=x0, y=y0, z=z0} --bottom corner
-	local minposxz = {x=x0, y=z0} --2D bottom corner
+	local chulens = {x = sidelen, y = sidelen, z = sidelen} --table of chunk edges
+	local chulens2D = {x = sidelen, y = sidelen, z = 1}
+	local minposxyz = {x = x0, y = y0, z = z0} --bottom corner
+	local minposxz = {x = x0, y = z0} --2D bottom corner
 	
-	local nvals_cave = minetest.get_perlin_map(np_cave, chulens):get3dMap_flat(minposxyz) --cave noise for structure
-	local nvals_wave = minetest.get_perlin_map(np_wave, chulens):get3dMap_flat(minposxyz) --wavy structure of cavern ceilings and floors
-	local nvals_biome = minetest.get_perlin_map(np_biome, chulens2D):get2dMap_flat({x=x0+150, y=z0+50}) --2D noise for biomes (will be 3D humidity/temp later)
+	nobj_cave = nobj_cave or minetest.get_perlin_map(np_cave, chulens)
+	nobj_wave = nobj_wave or minetest.get_perlin_map(np_wave, chulens)
+	nobj_biome = nobj_biome or minetest.get_perlin_map(np_biome, chulens2D)
+
+	local nvals_cave = nobj_cave:get3dMap_flat(minposxyz) --cave noise for structure
+	local nvals_wave = nobj_wave:get3dMap_flat(minposxyz) --wavy structure of cavern ceilings and floors
+	local nvals_biome = nobj_biome:get2dMap_flat({x=x0+150, y=z0+50}) --2D noise for biomes (will be 3D humidity/temp later)
 	
 	local nixyz = 1 --3D node index
 	local nixz = 1 --2D node index
