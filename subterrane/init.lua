@@ -21,6 +21,7 @@ dofile(modpath.."/functions.lua") --function definitions
 local c_lava = minetest.get_content_id("default:lava_source")
 local c_lava_flowing = minetest.get_content_id("default:lava_flowing")
 local c_stone = minetest.get_content_id("default:stone")
+local c_air = minetest.get_content_id("air")
 
 -- 3D noise for caves
 
@@ -141,13 +142,17 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			for x = x0, x1 do -- for each node do
 
 				local n_biome = nvals_biome[nixz] --make an easier reference to the noise
-				local biome = get_biome(y, n_biome)		
+				local biome = get_biome(y, n_biome)
+				local fill_node = c_air
+				if biome and biome.fill_node then
+					fill_node = biome.fill_node
+				end
 
 				if (nvals_cave[nixyz] + nvals_wave[nixyz])/2 > tcave then --if node falls within cave threshold
-					data[vi] = biome.fill_node --hollow it out to make the cave
+					data[vi] = fill_node --hollow it out to make the cave
 				elseif (nvals_cave[nixyz] + nvals_wave[nixyz])/2 > tcave - 0.2 then -- Eliminate nearby lava to keep it from spilling in
 					if data[vi] == c_lava or data[vi] == c_lava_flowing then
-						data[vi] = biome.fill_node
+						data[vi] = fill_node
 					end
 				end
 				--increment indices
@@ -182,16 +187,19 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				if math.floor(((nvals_cave[nixyz] + nvals_wave[nixyz])/2)*50) == math.floor(tcave*50) then
 					local n_biome = nvals_biome[nixz] --make an easier reference to the noise
 					local biome = get_biome(y, n_biome)
-					--ceiling
-					local ai = area:index(x,y+1,z) --above index
-					local bi = area:index(x,y-1,z) --below index
-					if data[ai] == c_stone and data[vi] == biome.fill_node then --ceiling
-						biome.ceiling_decor(area, data, ai, vi, bi)
-					end
-					--ground
-					if data[bi] == c_stone and data[vi] == biome.fill_node then --ground
-						local ai = area:index(x,y+1,z)
-						biome.floor_decor(area, data, ai, vi, bi)
+					
+					if biome then
+						--ceiling
+						local ai = area:index(x,y+1,z) --above index
+						local bi = area:index(x,y-1,z) --below index
+						if data[ai] == c_stone and data[vi] == biome.fill_node then --ceiling
+							biome.ceiling_decor(area, data, ai, vi, bi)
+						end
+						--ground
+						if data[bi] == c_stone and data[vi] == biome.fill_node then --ground
+							local ai = area:index(x,y+1,z)
+							biome.floor_decor(area, data, ai, vi, bi)
+						end
 					end
 					
 				end
