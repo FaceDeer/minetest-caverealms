@@ -124,8 +124,6 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	
 	local nixyz = 1 --3D node index
 	local nixz = 1 --2D node index
-	local nixz2 = 1 --2D node index for second loop
-	local nixyz2 = 1 --second 3D index for second loop
 	
 	for z = z0, z1 do -- for each xy plane progressing northwards
 		--structure loop, hollows out the cavern
@@ -160,6 +158,12 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			nixz = nixz - sidelen --shift the 2D index back
 		end
 		nixz = nixz + sidelen --shift the 2D index up a layer
+	end
+	
+	local nixyz = 1 --3D node index
+	local nixz = 1 --2D node index
+
+	for z = z0, z1 do -- for each xy plane progressing northwards
 
 		--decoration loop, places nodes on floor and ceiling
 		for y = y0, y1 do -- for each x row progressing upwards
@@ -175,8 +179,8 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			for x = x0, x1 do -- for each node do
 				
 				--determine biome
-				if math.floor(((nvals_cave[nixyz2] + nvals_wave[nixyz2])/2)*50) == math.floor(tcave*50) then
-					local n_biome = nvals_biome[nixz2] --make an easier reference to the noise
+				if math.floor(((nvals_cave[nixyz] + nvals_wave[nixyz])/2)*50) == math.floor(tcave*50) then
+					local n_biome = nvals_biome[nixz] --make an easier reference to the noise
 					local biome = get_biome(y, n_biome)
 					--ceiling
 					local ai = area:index(x,y+1,z) --above index
@@ -191,13 +195,13 @@ minetest.register_on_generated(function(minp, maxp, seed)
 					end
 					
 				end
-				nixyz2 = nixyz2 + 1
-				nixz2 = nixz2 + 1
+				nixyz = nixyz + 1
+				nixz = nixz + 1
 				vi = vi + 1
 			end
-			nixz2 = nixz2 - sidelen --shift the 2D index back
+			nixz = nixz - sidelen --shift the 2D index back
 		end
-		nixz2 = nixz2 + sidelen --shift the 2D index up a layer
+		nixz = nixz + sidelen --shift the 2D index up a layer
 	end
 	
 	--send data back to voxelmanip

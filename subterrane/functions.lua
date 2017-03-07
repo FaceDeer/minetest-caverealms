@@ -11,41 +11,6 @@ function subterrane:vertically_consistent_random(vi, area)
 	return output
 end
 
-function subterrane:above_solid(x,y,z,area,data)
-	local c_air = minetest.get_content_id("air")
-	
-	local c_vac
-	if (minetest.get_modpath("moontest")) then
-		c_vac = minetest.get_content_id("moontest:vacuum")
-	else
-		c_vac = minetest.get_content_id("air")
-	end
-	
-	local ai = area:index(x,y+1,z-3)
-	if data[ai] == c_air or data[ai] == c_vac then
-		return false
-	else
-		return true
-	end
-end
-function subterrane:below_solid(x,y,z,area,data)
-	local c_air = minetest.get_content_id("air")
-	
-	local c_vac
-	if (minetest.get_modpath("moontest")) then
-		c_vac = minetest.get_content_id("moontest:vacuum")
-	else
-		c_vac = minetest.get_content_id("air")
-	end
-	
-	local ai = area:index(x,y-1,z-3)
-	if data[ai] == c_air or data[ai] == c_vac then
-		return false
-	else
-		return true
-	end
-end
-
 --stalagmite spawner
 function subterrane:stalagmite(vi, area, data, min_height, max_height, base_material, root_material, shaft_material)
 	local pos = area:position(vi)
@@ -53,31 +18,27 @@ function subterrane:stalagmite(vi, area, data, min_height, max_height, base_mate
 	local y = pos.y
 	local z = pos.z
 
-	if not subterrane:below_solid(x,y,z,area,data) then
-		return
-	end
-
 	local top = math.random(min_height,max_height)
 	for j = 0, top do --y
 		for k = -3, 3 do
 			for l = -3, 3 do
 				if j == 0 then
 					if k*k + l*l <= 9 then
-						local vi = area:index(x+k, y+j, z+l-3)
+						local vi = area:index(x+k, y+j, z+l)
 						data[vi] = base_material
 					end
 				elseif j <= top/5 then
 					if k*k + l*l <= 4 then
-						local vi = area:index(x+k, y+j, z+l-3)
+						local vi = area:index(x+k, y+j, z+l)
 						data[vi] = root_material
 					end
 				elseif j <= top/5 * 3 then
 					if k*k + l*l <= 1 then
-						local vi = area:index(x+k, y+j, z+l-3)
+						local vi = area:index(x+k, y+j, z+l)
 						data[vi] = shaft_material
 					end
 				else
-					local vi = area:index(x, y+j, z-3)
+					local vi = area:index(x, y+j, z)
 					data[vi] = shaft_material
 				end
 			end
@@ -92,31 +53,27 @@ function subterrane:stalactite(vi, area, data, min_height, max_height, base_mate
 	local y = pos.y
 	local z = pos.z
 
-	if not subterrane:above_solid(x,y,z,area,data) then
-		return
-	end
-
 	local bot = math.random(-max_height, -min_height) --grab a random height for the stalagmite
 	for j = bot, 0 do --y
 		for k = -3, 3 do
 			for l = -3, 3 do
 				if j >= -1 then
 					if k*k + l*l <= 9 then
-						local vi = area:index(x+k, y+j, z+l-3)
+						local vi = area:index(x+k, y+j, z+l)
 						data[vi] = base_material
 					end
 				elseif j >= bot/5 then
 					if k*k + l*l <= 4 then
-						local vi = area:index(x+k, y+j, z+l-3)
+						local vi = area:index(x+k, y+j, z+l)
 						data[vi] = root_material
 					end
 				elseif j >= bot/5 * 3 then
 					if k*k + l*l <= 1 then
-						local vi = area:index(x+k, y+j, z+l-3)
+						local vi = area:index(x+k, y+j, z+l)
 						data[vi] = shaft_material
 					end
 				else
-					local vi = area:index(x, y+j, z-3)
+					local vi = area:index(x, y+j, z)
 					data[vi] = shaft_material
 				end
 			end
@@ -132,11 +89,6 @@ function subterrane:giant_shroom(vi, area, data, stem_material, cap_material, gi
 	local y = pos.y
 	local z = pos.z
 
-	if not subterrane:below_solid(x,y,z,area,data) then
-		return
-	end
-	
-	z = z - cap_radius
 	--cap
 	for k = -cap_radius, cap_radius do
 	for l = -cap_radius, cap_radius do
