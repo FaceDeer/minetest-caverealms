@@ -182,10 +182,6 @@ minetest.register_on_generated(function(minp, maxp, seed)
 						fill_node = biome._subterrane_fill_node
 					end
 					
-					if math.random() < 0.0005 then
-						minetest.debug("biome_name", biome_name)
-					end
-					
 					if biome then
 						--ceiling
 						local ai = area:index(x,y+1,z) --above index
