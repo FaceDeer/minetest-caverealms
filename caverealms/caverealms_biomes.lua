@@ -93,18 +93,22 @@ local c_cap = minetest.get_content_id("caverealms:mushroom_cap")
 local c_gills = minetest.get_content_id("caverealms:mushroom_gills")
 
 local glow_worm_ceiling = function(area, data, ai, vi, bi)
-	if math.random() < WORMCHA then
+	if math.random() < WORMCHA and data[vi] == c_air and data[bi] == c_air then
 		data[vi] = c_worm
 		data[bi] = c_worm
 		if math.random(2) == 1 then
 			local pos = area:position(vi)
 			pos.y = pos.y-2
 			local bbi = area:indexp(pos)
-			data[bbi] = c_worm
-			if math.random(2) ==1 then
-				pos.y = pos.y-1
-				local bbbi = area:indexp(pos)
-				data[bbbi] = c_worm
+			if data[bbi] == c_air then
+				data[bbi] = c_worm
+				if math.random(2) ==1 then
+					pos.y = pos.y-1
+					local bbbi = area:indexp(pos)
+					if data[bbbi] == c_air then
+						data[bbbi] = c_worm
+					end
+				end
 			end
 		end
 	end
