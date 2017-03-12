@@ -8,7 +8,7 @@ subterrane = {} --create a container for functions and constants
 subterrane.biomes = {}
 
 function subterrane:register_biome(biome_def)
-	table.insert(subterrane.biomes, biome_def)
+	subterrane.biomes[biome_def.name] = biome_def
 end
 
 --grab a shorthand for the filepath of the mod
@@ -45,17 +45,6 @@ local np_wave = {
 	persist = 0.67
 }
 
--- 2D noise for biome
-
-local np_biome = {
-	offset = 0,
-	scale = 1,
-	spread = {x=250, y=250, z=250},
-	seed = 9130,
-	octaves = 3,
-	persist = 0.5
-}
-
 -- Stuff
 
 local YMIN = subterrane.config.ymin -- Approximate realm limits.
@@ -66,31 +55,37 @@ local BLEND = 128 -- Cave blend distance near YMIN, YMAX
 local yblmin = YMIN + BLEND * 1.5
 local yblmax = YMAX - BLEND * 1.5
 
+-- default mapgen registers an "underground" biome that gets in the way of everything.
+subterrane:override_biome({
+	name = "underground",
+	y_min = YMAX,
+	y_max = -113,
+	heat_point = 50,
+	humidity_point = 50,
+})
 
-local get_biome = function(y, n_biome)
-	for _, biome in ipairs(subterrane.biomes) do
-		if
-			(biome.y_max == nil or y < biome.y_max) and
-			(biome.y_min == nil or y > biome.y_min) and
-			(biome.n_biome_max == nil or n_biome < biome.n_biome_max) and
-			(biome.n_biome_min == nil or n_biome > biome.n_biome_min) then
-			return biome
-		end
-	end
-	return nil
-end
+---------------------------------------------------------------------------------------------
 
  -- noise objects
 local nobj_cave = nil
 local nobj_wave = nil 
-local nobj_biome = nil 
 
 -- On generated function
 
 minetest.register_on_generated(function(minp, maxp, seed)
 	--if out of range of subterrane limits
 	if minp.y > YMAX or maxp.y < YMIN then
-		return --quit; otherwise, you'd have stalagmites all over the place
+		return
+	end
+	
+	-- Create a table of biome ids, so I can use the biomemap.
+	if not subterrane.biome_ids then
+		subterrane.biome_ids = {}
+		for name, desc in pairs(minetest.registered_biomes) do
+			local i = minetest.get_biome_id(desc.name)
+			subterrane.biome_ids[i] = desc.name
+			--minetest.debug("registered biome name", desc.name)
+		end
 	end
 
 	--easy reference to commonly used values
@@ -107,6 +102,8 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
 	local area = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
 	local data = vm:get_data()
+
+	local biomemap = minetest.get_mapgen_object("biomemap")
 	
 	--mandatory values
 	local sidelen = x1 - x0 + 1 --length of a mapblock
@@ -117,14 +114,12 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	
 	nobj_cave = nobj_cave or minetest.get_perlin_map(np_cave, chulens)
 	nobj_wave = nobj_wave or minetest.get_perlin_map(np_wave, chulens)
-	nobj_biome = nobj_biome or minetest.get_perlin_map(np_biome, chulens2D)
 
 	local nvals_cave = nobj_cave:get3dMap_flat(minposxyz) --cave noise for structure
 	local nvals_wave = nobj_wave:get3dMap_flat(minposxyz) --wavy structure of cavern ceilings and floors
-	local nvals_biome = nobj_biome:get2dMap_flat({x=x0+150, y=z0+50}) --2D noise for biomes (will be 3D humidity/temp later)
 	
-	local nixyz = 1 --3D node index
-	local nixz = 1 --2D node index
+	local index_3d = 1 --3D node index
+	local index_2d = 1 --2D node index
 	
 	for z = z0, z1 do -- for each xy plane progressing northwards
 		--structure loop, hollows out the cavern
@@ -141,32 +136,33 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			local vi = area:index(x0, y, z) --current node index
 			for x = x0, x1 do -- for each node do
 
-				local n_biome = nvals_biome[nixz] --make an easier reference to the noise
-				local biome = get_biome(y, n_biome)
+				local biome_name = subterrane.biome_ids[biomemap[index_2d]]
+				local biome = subterrane.biomes[biome_name]
+								
 				local fill_node = c_air
 				if biome and biome.fill_node then
 					fill_node = biome.fill_node
 				end
 
-				if (nvals_cave[nixyz] + nvals_wave[nixyz])/2 > tcave then --if node falls within cave threshold
+				if (nvals_cave[index_3d] + nvals_wave[index_3d])/2 > tcave then --if node falls within cave threshold
 					data[vi] = fill_node --hollow it out to make the cave
-				elseif (nvals_cave[nixyz] + nvals_wave[nixyz])/2 > tcave - 0.2 then -- Eliminate nearby lava to keep it from spilling in
+				elseif (nvals_cave[index_3d] + nvals_wave[index_3d])/2 > tcave - 0.2 then -- Eliminate nearby lava to keep it from spilling in
 					if data[vi] == c_lava or data[vi] == c_lava_flowing then
 						data[vi] = fill_node
 					end
 				end
 				--increment indices
-				nixyz = nixyz + 1
-				nixz = nixz + 1
+				index_3d = index_3d + 1
+				index_2d = index_2d + 1
 				vi = vi + 1
 			end
-			nixz = nixz - sidelen --shift the 2D index back
+			index_2d = index_2d - sidelen --shift the 2D index back
 		end
-		nixz = nixz + sidelen --shift the 2D index up a layer
+		index_2d = index_2d + sidelen --shift the 2D index up a layer
 	end
 	
-	local nixyz = 1 --3D node index
-	local nixz = 1 --2D node index
+	local index_3d = 1 --3D node index
+	local index_2d = 1 --2D node index
 
 	for z = z0, z1 do -- for each xy plane progressing northwards
 
@@ -182,11 +178,14 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			end
 			local vi = area:index(x0, y, z)
 			for x = x0, x1 do -- for each node do
-				
-				--determine biome
-				if math.floor(((nvals_cave[nixyz] + nvals_wave[nixyz])/2)*50) == math.floor(tcave*50) then
-					local n_biome = nvals_biome[nixz] --make an easier reference to the noise
-					local biome = get_biome(y, n_biome)
+				-- only check nodes near the edges of caverns
+				if math.floor(((nvals_cave[index_3d] + nvals_wave[index_3d])/2)*50) == math.floor(tcave*50) then
+					local biome_name = subterrane.biome_ids[biomemap[index_2d]]
+					local biome = subterrane.biomes[biome_name]
+					
+					if math.random() < 0.001 then
+						minetest.debug("biome_name", biome_name)
+					end
 					
 					if biome then
 						--ceiling
@@ -203,13 +202,13 @@ minetest.register_on_generated(function(minp, maxp, seed)
 					end
 					
 				end
-				nixyz = nixyz + 1
-				nixz = nixz + 1
+				index_3d = index_3d + 1
+				index_2d = index_2d + 1
 				vi = vi + 1
 			end
-			nixz = nixz - sidelen --shift the 2D index back
+			index_2d = index_2d - sidelen --shift the 2D index back
 		end
-		nixz = nixz + sidelen --shift the 2D index up a layer
+		index_2d = index_2d + sidelen --shift the 2D index up a layer
 	end
 	
 	--send data back to voxelmanip
