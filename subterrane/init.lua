@@ -63,7 +63,9 @@ subterrane:override_biome({
 
  -- noise objects
 local nobj_cave = nil
-local nobj_wave = nil 
+local nobj_wave = nil
+
+local data = {}
 
 -- On generated function
 
@@ -95,7 +97,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	
 	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
 	local area = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
-	local data = vm:get_data()
+	vm:get_data(data)
 
 	local biomemap = minetest.get_mapgen_object("biomemap")
 	
