@@ -5,11 +5,6 @@
 -- License: code WTFPL
 
 subterrane = {} --create a container for functions and constants
-subterrane.biomes = {}
-
-function subterrane:register_biome(biome_def)
-	subterrane.biomes[biome_def.name] = biome_def
-end
 
 --grab a shorthand for the filepath of the mod
 local modpath = minetest.get_modpath(minetest.get_current_modname())
@@ -78,13 +73,12 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		return
 	end
 	
-	-- Create a table of biome ids, so I can use the biomemap.
+	-- Create a table of biome ids for use with the biomemap.
 	if not subterrane.biome_ids then
 		subterrane.biome_ids = {}
 		for name, desc in pairs(minetest.registered_biomes) do
 			local i = minetest.get_biome_id(desc.name)
 			subterrane.biome_ids[i] = desc.name
-			--minetest.debug("registered biome name", desc.name)
 		end
 	end
 
@@ -137,11 +131,11 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			for x = x0, x1 do -- for each node do
 
 				local biome_name = subterrane.biome_ids[biomemap[index_2d]]
-				local biome = subterrane.biomes[biome_name]
+				local biome = minetest.registered_biomes[biome_name]
 								
 				local fill_node = c_air
-				if biome and biome.fill_node then
-					fill_node = biome.fill_node
+				if biome and biome._subterrane_fill_node then
+					fill_node = biome._subterrane_fill_node
 				end
 
 				if (nvals_cave[index_3d] + nvals_wave[index_3d])/2 > tcave then --if node falls within cave threshold
@@ -181,9 +175,14 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				-- only check nodes near the edges of caverns
 				if math.floor(((nvals_cave[index_3d] + nvals_wave[index_3d])/2)*50) == math.floor(tcave*50) then
 					local biome_name = subterrane.biome_ids[biomemap[index_2d]]
-					local biome = subterrane.biomes[biome_name]
+					local biome = minetest.registered_biomes[biome_name]
 					
-					if math.random() < 0.001 then
+					local fill_node = c_air
+					if biome and biome._subterrane_fill_node then
+						fill_node = biome._subterrane_fill_node
+					end
+					
+					if math.random() < 0.0005 then
 						minetest.debug("biome_name", biome_name)
 					end
 					
@@ -191,13 +190,13 @@ minetest.register_on_generated(function(minp, maxp, seed)
 						--ceiling
 						local ai = area:index(x,y+1,z) --above index
 						local bi = area:index(x,y-1,z) --below index
-						if data[ai] == c_stone and data[vi] == biome.fill_node then --ceiling
-							biome.ceiling_decor(area, data, ai, vi, bi)
+						if biome._subterrane_ceiling_decor and data[ai] == c_stone and data[vi] == fill_node then --ceiling
+							biome._subterrane_ceiling_decor(area, data, ai, vi, bi)
 						end
 						--ground
-						if data[bi] == c_stone and data[vi] == biome.fill_node then --ground
+						if biome._subterrane_floor_decor and data[bi] == c_stone and data[vi] == fill_node then --ground
 							local ai = area:index(x,y+1,z)
-							biome.floor_decor(area, data, ai, vi, bi)
+							biome._subterrane_floor_decor(area, data, ai, vi, bi)
 						end
 					end
 					

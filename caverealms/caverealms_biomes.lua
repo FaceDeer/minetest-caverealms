@@ -110,79 +110,6 @@ local glow_worm_ceiling = function(area, data, ai, vi, bi)
 	end
 end
 
-
-minetest.register_biome({
-	name = "caverealms_dungeon",
-	y_min = DM_BOT,
-	y_max = DM_TOP,
-	heat_point = 50,
-	humidity_point = 50,
-})
-
-minetest.register_biome({
-	name = "caverealms_moss",
-	y_min = DEEP_CAVE,
-	y_max = YMAX,
-	heat_point = 80,
-	humidity_point = 10,
-})
-
-minetest.register_biome({
-	name = "caverealms_fungal",
-	y_min = DEEP_CAVE,
-	y_max = YMAX,
-	heat_point = 60,
-	humidity_point = 50,
-})
-
-minetest.register_biome({
-	name = "caverealms_algae",
-	y_min = DEEP_CAVE,
-	y_max = YMAX,
-	heat_point = 80,
-	humidity_point = 90,
-})
-
-minetest.register_biome({
-	name = "caverealms_glaciated",
-	y_min = DEEP_CAVE,
-	y_max = YMAX,
-	heat_point = 0,
-	humidity_point = 50,
-})
-
-minetest.register_biome({
-	name = "caverealms_deep_glaciated",
-	y_min = YMIN,
-	y_max = DEEP_CAVE,
-	heat_point = 0,
-	humidity_point = 50,
-})
-
-minetest.register_biome({
-	name = "caverealms_salt_crystal",
-	y_min = YMIN,
-	y_max = DEEP_CAVE,
-	heat_point = 80,
-	humidity_point = 10,
-})
-
-minetest.register_biome({
-	name = "caverealms_glow_obsidian",
-	y_min = YMIN,
-	y_max = DEEP_CAVE,
-	heat_point = 80,
-	humidity_point = 90,
-})
-
-minetest.register_biome({
-	name = "caverealms_coal_dust",
-	y_min = YMIN,
-	y_max = DEEP_CAVE,
-	heat_point = 60,
-	humidity_point = 50,
-})
-
 -----------------------------------------------------------------------------------------------------------
 -- Dungeon
 
@@ -217,13 +144,6 @@ local dungeon_ceiling = function(area, data, ai, vi, bi)
 		end
 	end
 end
-
-subterrane:register_biome({
-	name = "caverealms_dungeon",
-	ceiling_decor = dungeon_ceiling,
-	floor_decor = dungeon_floor,
-	fill_node = c_air
-})
 
 -----------------------------------------------------------------------------------------------------------
 -- Moss
@@ -262,13 +182,6 @@ local moss_ceiling = function(area, data, ai, vi, bi)
 	end	
 end
 
-subterrane:register_biome({
-	name = "caverealms_moss",
-	ceiling_decor = moss_ceiling,
-	floor_decor = moss_floor,
-	fill_node = c_air
-})
-
 -----------------------------------------------------------------------------------------------------------
 -- Fungal
 
@@ -306,13 +219,6 @@ local fungal_ceiling = function(area, data, ai, vi, bi)
 	end
 end
 
-subterrane:register_biome({
-	name = "caverealms_fungal",
-	ceiling_decor = fungal_ceiling,
-	floor_decor = fungal_floor,
-	fill_node = c_air
-})
-
 -----------------------------------------------------------------------------------------------------------
 -- Algae
 
@@ -343,13 +249,6 @@ local algae_ceiling = function(area, data, ai, vi, bi)
 	end
 
 end
-
-subterrane:register_biome({
-	name = "caverealms_algae",
-	ceiling_decor = algae_ceiling,
-	floor_decor = algae_floor,
-	fill_node = c_air
-})
 
 -----------------------------------------------------------------------------------------------------------
 -- Glaciated
@@ -385,13 +284,6 @@ local glaciated_ceiling = function(area, data, ai, vi, bi)
 		end
 	end
 end
-
-subterrane:register_biome({
-	name = "caverealms_glaciated",
-	ceiling_decor = glaciated_ceiling,
-	floor_decor = glaciated_floor,
-	fill_node = c_air
-})
 
 -----------------------------------------------------------------------------------------------------------
 -- Deep Glaciated
@@ -429,13 +321,6 @@ local deep_glaciated_ceiling = function(area, data, ai, vi, bi)
 		end
 	end	
 end
-
-subterrane:register_biome({
-	name = "caverealms_deep_glaciated",
-	ceiling_decor = deep_glaciated_ceiling,
-	floor_decor = deep_glaciated_floor,
-	fill_node = c_air
-})
 
 -----------------------------------------------------------------------------------------------------------
 -- Salt
@@ -520,14 +405,6 @@ local salt_ceiling = function(area, data, ai, vi, bi)
 	end	
 end
 
-subterrane:register_biome({
-	name = "caverealms_salt_crystal",
-	ceiling_decor = salt_ceiling,
-	floor_decor = salt_floor,
-	fill_node = c_air
-})
-
-
 -----------------------------------------------------------------------------------------------------------
 -- Glowing Obsidian
 
@@ -565,13 +442,6 @@ local obsidian_ceiling = function(area, data, ai, vi, bi)
 		end
 	end
 end
-
-subterrane:register_biome({
-	name = "caverealms_glow_obsidian",
-	ceiling_decor = obsidian_ceiling,
-	floor_decor = obsidian_floor,
-	fill_node = c_air
-})
 
 -----------------------------------------------------------------------------------------------------------
 -- Coal Dust
@@ -636,9 +506,106 @@ local coal_ceiling = function(area, data, ai, vi, bi)
 	end
 end
 
-subterrane:register_biome({
-	name = "caverealms_coal_dust",
-	ceiling_decor = coal_ceiling,
-	floor_decor = coal_floor,
-	fill_node = c_air
+-------------------------------------------------------------------------------------------
+
+minetest.register_biome({
+	name = "caverealms_dungeon",
+	y_min = DM_BOT,
+	y_max = DM_TOP,
+	heat_point = 50,
+	humidity_point = 50,
+	_subterrane_ceiling_decor = dungeon_ceiling,
+	_subterrane_floor_decor = dungeon_floor,
+	_subterrane_fill_node = c_air,
 })
+
+minetest.register_biome({
+	name = "caverealms_moss",
+	y_min = DEEP_CAVE,
+	y_max = YMAX,
+	heat_point = 80,
+	humidity_point = 10,
+	_subterrane_ceiling_decor = moss_ceiling,
+	_subterrane_floor_decor = moss_floor,
+	_subterrane_fill_node = c_air,
+})
+
+minetest.register_biome({
+	name = "caverealms_fungal",
+	y_min = DEEP_CAVE,
+	y_max = YMAX,
+	heat_point = 60,
+	humidity_point = 50,
+	_subterrane_ceiling_decor = fungal_ceiling,
+	_subterrane_floor_decor = fungal_floor,
+	_subterrane_fill_node = c_air,
+})
+
+minetest.register_biome({
+	name = "caverealms_algae",
+	y_min = DEEP_CAVE,
+	y_max = YMAX,
+	heat_point = 80,
+	humidity_point = 90,
+	_subterrane_ceiling_decor = algae_ceiling,
+	_subterrane_floor_decor = algae_floor,
+	_subterrane_fill_node = c_air,
+})
+
+minetest.register_biome({
+	name = "caverealms_glaciated",
+	y_min = DEEP_CAVE,
+	y_max = YMAX,
+	heat_point = 0,
+	humidity_point = 50,
+	_subterrane_ceiling_decor = glaciated_ceiling,
+	_subterrane_floor_decor = glaciated_floor,
+	_subterrane_fill_node = c_air,
+})
+
+minetest.register_biome({
+	name = "caverealms_deep_glaciated",
+	y_min = YMIN,
+	y_max = DEEP_CAVE,
+	heat_point = 0,
+	humidity_point = 50,
+	_subterrane_ceiling_decor = deep_glaciated_ceiling,
+	_subterrane_floor_decor = deep_glaciated_floor,
+	_subterrane_fill_node = c_air,
+})
+
+minetest.register_biome({
+	name = "caverealms_salt_crystal",
+	y_min = YMIN,
+	y_max = DEEP_CAVE,
+	heat_point = 80,
+	humidity_point = 10,
+	_subterrane_ceiling_decor = salt_crystal_ceiling,
+	_subterrane_floor_decor = salt_crystal_floor,
+	_subterrane_fill_node = c_air,
+})
+
+minetest.register_biome({
+	name = "caverealms_glow_obsidian",
+	y_min = YMIN,
+	y_max = DEEP_CAVE,
+	heat_point = 80,
+	humidity_point = 90,
+	_subterrane_ceiling_decor = glow_obsidian_ceiling,
+	_subterrane_floor_decor = glow_obsidian_floor,
+	_subterrane_fill_node = c_air,
+})
+
+minetest.register_biome({
+	name = "caverealms_coal_dust",
+	y_min = YMIN,
+	y_max = DEEP_CAVE,
+	heat_point = 60,
+	humidity_point = 50,
+	_subterrane_ceiling_decor = coal_dust_ceiling,
+	_subterrane_floor_decor = coal_dust_floor,
+	_subterrane_fill_node = c_air,
+})
+
+
+
