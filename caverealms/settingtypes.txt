@@ -1,3 +1,5 @@
+caverealms_deep_cave (deep cave upper limit) int -7000 -31000 31000
+
 [Decorations]
 caverealms.stagcha (chance of stalagmites) float 0.002 0 1
 caverealms.stalcha (chance of stalactites) float 0.003 0 1

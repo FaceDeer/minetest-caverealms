@@ -1,9 +1,8 @@
 [Generation settings]
-subterrane_ymin (bottom realm limit) int -33000 -33000 33000
-subterrane_ymax (top realm limit) int -700 -33000 33000
+subterrane_ymin (bottom realm limit) int -31000 -31000 31000
+subterrane_ymax (top realm limit) int -700 -31000 31000
 #Cave threshold. 1 = small rare caves, 0.5 = 1/3rd ground volume, 0 = 1/2 ground volume
 subterrane_tcave (cave threshold) float 0.5 0 1.0
-subterrane_deep_cave (deep cave upper limit) int -7000 -33000 33000
 
 [Player spawning]
 subterrane_cavespawn (Player spawns in caves) bool false
