@@ -178,13 +178,14 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				if math.floor(((nvals_cave[index_3d] + nvals_wave[index_3d])/2)*50) == math.floor(tcave*50) then
 					local biome_name = subterrane.biome_ids[biomemap[index_2d]]
 					local biome = minetest.registered_biomes[biome_name]
-					
 					local fill_node = c_air
-					if biome and biome._subterrane_fill_node then
-						fill_node = biome._subterrane_fill_node
-					end
+					
+					--if math.random() < 0.005 then minetest.debug("biome", biome_name) end
 					
 					if biome then
+						if biome._subterrane_fill_node then
+							fill_node = biome._subterrane_fill_node
+						end					
 						--ceiling
 						local ai = area:index(x,y+1,z) --above index
 						local bi = area:index(x,y-1,z) --below index
