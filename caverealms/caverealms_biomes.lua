@@ -228,6 +228,7 @@ end
 
 local algae_floor = function(area, data, ai, vi, bi)
 	data[vi] = c_algae
+	--if data[ai] == c_air then data[ai] = c_water end
 	if subterrane:vertically_consistent_random(vi, area) < STAGCHA then
 		subterrane:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
@@ -583,9 +584,9 @@ minetest.register_biome({
 	y_min = YMIN,
 	y_max = DEEP_CAVE,
 	heat_point = 80,
-	humidity_point = 10,
-	_subterrane_ceiling_decor = salt_crystal_ceiling,
-	_subterrane_floor_decor = salt_crystal_floor,
+	humidity_point = 90,
+	_subterrane_ceiling_decor = salt_ceiling,
+	_subterrane_floor_decor = salt_floor,
 	_subterrane_fill_node = c_air,
 })
 
@@ -594,9 +595,9 @@ minetest.register_biome({
 	y_min = YMIN,
 	y_max = DEEP_CAVE,
 	heat_point = 80,
-	humidity_point = 90,
-	_subterrane_ceiling_decor = glow_obsidian_ceiling,
-	_subterrane_floor_decor = glow_obsidian_floor,
+	humidity_point = 10,
+	_subterrane_ceiling_decor = obsidian_ceiling,
+	_subterrane_floor_decor = obsidian_floor,
 	_subterrane_fill_node = c_air,
 })
 
@@ -606,8 +607,8 @@ minetest.register_biome({
 	y_max = DEEP_CAVE,
 	heat_point = 60,
 	humidity_point = 50,
-	_subterrane_ceiling_decor = coal_dust_ceiling,
-	_subterrane_floor_decor = coal_dust_floor,
+	_subterrane_ceiling_decor = coal_ceiling,
+	_subterrane_floor_decor = coal_floor,
 	_subterrane_fill_node = c_air,
 })
 
