@@ -120,7 +120,7 @@ end
 -- Dungeon
 
 local dungeon_floor = function(area, data, ai, vi, bi)
-	data[vi] = c_hcobble
+	if data[bi] == c_stone then data[vi] = c_hcobble end
 	if math.random() < FLACHA then --neverending flames
 		data[ai] = c_flame
 	elseif math.random() < FOUNCHA and FOUNTAINS then --DM FOUNTAIN
@@ -155,7 +155,7 @@ end
 -- Moss
 
 local moss_floor = function(area, data, ai, vi, bi)
-	data[vi] = c_moss
+	if data[bi] == c_stone then data[vi] = c_moss end
 	if math.random() < GEMCHA then
 		-- gems of random size
 		local gems = { c_gem1, c_gem2, c_gem3, c_gem4, c_gem5 }
@@ -176,7 +176,7 @@ local moss_floor = function(area, data, ai, vi, bi)
 end
 
 local moss_ceiling = function(area, data, ai, vi, bi)
-	if data[vi] == c_lava then data[vi] = c_gobsidian end
+	if data[ai] == c_lava then data[ai] = c_gobsidian end
 	glow_worm_ceiling(area, data, ai, vi, bi)
 	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
 		subterrane:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
@@ -193,7 +193,7 @@ end
 -- Fungal
 
 local fungal_floor = function(area, data, ai, vi, bi)
-	data[vi] = c_lichen
+	if data[bi] == c_stone then data[vi] = c_lichen end
 	if math.random() < MUSHCHA then --mushrooms
 		data[ai] = c_fungus
 	elseif math.random() < MYCCHA then --mycena mushrooms
@@ -214,7 +214,7 @@ local fungal_floor = function(area, data, ai, vi, bi)
 end
 
 local fungal_ceiling = function(area, data, ai, vi, bi)
-	if data[vi] == c_lava then data[vi] = c_gobsidian end
+	if data[ai] == c_lava then data[ai] = c_gobsidian end
 	glow_worm_ceiling(area, data, ai, vi, bi)
 	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
 		subterrane:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
@@ -231,7 +231,7 @@ end
 -- Algae
 
 local algae_floor = function(area, data, ai, vi, bi)
-	data[vi] = c_algae
+	if data[bi] == c_stone then data[vi] = c_algae end
 	--if data[ai] == c_air then data[ai] = c_water end
 	if subterrane:vertically_consistent_random(vi, area) < STAGCHA then
 		subterrane:stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
@@ -245,7 +245,7 @@ local algae_floor = function(area, data, ai, vi, bi)
 end
 
 local algae_ceiling = function(area, data, ai, vi, bi)
-	if data[vi] == c_lava then data[vi] = c_gobsidian end
+	if data[ai] == c_lava then data[ai] = c_gobsidian end
 	glow_worm_ceiling(area, data, ai, vi, bi)
 	
 	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
@@ -280,7 +280,7 @@ local glaciated_floor = function(area, data, ai, vi, bi)
 end
 
 local glaciated_ceiling = function(area, data, ai, vi, bi)
-	if data[vi] == c_lava then data[vi] = c_gobsidian end
+	if data[ai] == c_lava then data[ai] = c_gobsidian end
 	if math.random() < ICICHA then
 		data[vi] = c_icid
 	end
@@ -317,7 +317,7 @@ local deep_glaciated_floor = function(area, data, ai, vi, bi)
 end
 
 local deep_glaciated_ceiling = function(area, data, ai, vi, bi)
-	if data[vi] == c_lava then data[vi] = c_gobsidian end
+	if data[ai] == c_lava then data[ai] = c_gobsidian end
 	if math.random() < ICICHA then
 		data[vi] = c_icid
 	end
@@ -492,19 +492,7 @@ end
 
 local coal_ceiling = function(area, data, ai, vi, bi)
 	if math.random() < WORMCHA then
-		data[vi] = c_worm
-		data[bi] = c_worm
-		if math.random(2) == 1 then
-			local pos = area:position(vi)
-			pos.y = pos.y-2
-			local bbi = area:indexp(pos)
-			data[bbi] = c_worm
-			if math.random(2) ==1 then
-				pos.y = pos.y-1
-				local bbbi = area:indexp(pos)
-				data[bbbi] = c_worm
-			end
-		end
+		glow_worm_ceiling(area, data, ai, vi, bi)
 	end
 	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
 		subterrane:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
@@ -561,7 +549,7 @@ minetest.register_biome({
 	humidity_point = 90,
 	_subterrane_ceiling_decor = algae_ceiling,
 	_subterrane_floor_decor = algae_floor,
-	_subterrane_fill_node = c_water,
+	_subterrane_fill_node = c_air,
 })
 
 minetest.register_biome({
