@@ -66,6 +66,7 @@ local nobj_cave = nil
 local nobj_wave = nil
 
 local data = {}
+local data_param2 = {}
 
 -- On generated function
 
@@ -98,6 +99,9 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
 	local area = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
 	vm:get_data(data)
+	if subterrane.get_param2_data then
+		vm:get_param2_data(data_param2)
+	end
 
 	local biomemap = minetest.get_mapgen_object("biomemap")
 	
@@ -190,12 +194,12 @@ minetest.register_on_generated(function(minp, maxp, seed)
 						local ai = area:index(x,y+1,z) --above index
 						local bi = area:index(x,y-1,z) --below index
 						if biome._subterrane_ceiling_decor and data[ai] == c_stone and data[vi] == fill_node then --ceiling
-							biome._subterrane_ceiling_decor(area, data, ai, vi, bi)
+							biome._subterrane_ceiling_decor(area, data, ai, vi, bi, data_param2)
 						end
 						--ground
 						if biome._subterrane_floor_decor and data[bi] == c_stone and data[vi] == fill_node then --ground
 							local ai = area:index(x,y+1,z)
-							biome._subterrane_floor_decor(area, data, ai, vi, bi)
+							biome._subterrane_floor_decor(area, data, ai, vi, bi, data_param2)
 						end
 					end
 					
@@ -211,6 +215,9 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	
 	--send data back to voxelmanip
 	vm:set_data(data)
+	if subterrane.get_param2_data then
+		vm:set_param2_data(data_param2)
+	end
 	--calc lighting
 	vm:set_lighting({day = 0, night = 0})
 	vm:calc_lighting()
