@@ -44,6 +44,8 @@ local c_stone = minetest.get_content_id("default:stone")
 local c_desand = minetest.get_content_id("default:desert_sand")
 local c_flame = minetest.get_content_id("fire:permanent_flame")
 local c_ice = minetest.get_content_id("default:ice")
+local c_lava = minetest.get_content_id("default:lava_source")
+
 
 local c_algae = minetest.get_content_id("caverealms:stone_with_algae")
 local c_ameth = minetest.get_content_id("caverealms:glow_amethyst")
@@ -174,6 +176,7 @@ local moss_floor = function(area, data, ai, vi, bi)
 end
 
 local moss_ceiling = function(area, data, ai, vi, bi)
+	if data[vi] == c_lava then data[vi] = c_gobsidian end
 	glow_worm_ceiling(area, data, ai, vi, bi)
 	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
 		subterrane:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
@@ -211,6 +214,7 @@ local fungal_floor = function(area, data, ai, vi, bi)
 end
 
 local fungal_ceiling = function(area, data, ai, vi, bi)
+	if data[vi] == c_lava then data[vi] = c_gobsidian end
 	glow_worm_ceiling(area, data, ai, vi, bi)
 	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
 		subterrane:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
@@ -241,6 +245,7 @@ local algae_floor = function(area, data, ai, vi, bi)
 end
 
 local algae_ceiling = function(area, data, ai, vi, bi)
+	if data[vi] == c_lava then data[vi] = c_gobsidian end
 	glow_worm_ceiling(area, data, ai, vi, bi)
 	
 	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
@@ -275,6 +280,7 @@ local glaciated_floor = function(area, data, ai, vi, bi)
 end
 
 local glaciated_ceiling = function(area, data, ai, vi, bi)
+	if data[vi] == c_lava then data[vi] = c_gobsidian end
 	if math.random() < ICICHA then
 		data[vi] = c_icid
 	end
@@ -311,6 +317,7 @@ local deep_glaciated_floor = function(area, data, ai, vi, bi)
 end
 
 local deep_glaciated_ceiling = function(area, data, ai, vi, bi)
+	if data[vi] == c_lava then data[vi] = c_gobsidian end
 	if math.random() < ICICHA then
 		data[vi] = c_icid
 	end
@@ -554,7 +561,7 @@ minetest.register_biome({
 	humidity_point = 90,
 	_subterrane_ceiling_decor = algae_ceiling,
 	_subterrane_floor_decor = algae_floor,
-	_subterrane_fill_node = c_air,
+	_subterrane_fill_node = c_water,
 })
 
 minetest.register_biome({

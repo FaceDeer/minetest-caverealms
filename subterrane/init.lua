@@ -6,6 +6,9 @@
 
 subterrane = {} --create a container for functions and constants
 
+-- set subterrane.mitigate_lava to true to attempt to mitigate lava spilling into the caves
+-- set subterrane.get_param2_data to true to make this mod read and set param2 data (shaves a few milliseconds off when you don't, so mods that don't make use of this should leave this unset)
+
 --grab a shorthand for the filepath of the mod
 local modpath = minetest.get_modpath(minetest.get_current_modname())
 
@@ -146,7 +149,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 
 				if (nvals_cave[index_3d] + nvals_wave[index_3d])/2 > tcave then --if node falls within cave threshold
 					data[vi] = fill_node --hollow it out to make the cave
-				elseif (nvals_cave[index_3d] + nvals_wave[index_3d])/2 > tcave - 0.2 then -- Eliminate nearby lava to keep it from spilling in
+				elseif subterrane.mitigate_lava and (nvals_cave[index_3d] + nvals_wave[index_3d])/2 > tcave - 0.2 then -- Eliminate nearby lava to keep it from spilling in
 					if data[vi] == c_lava or data[vi] == c_lava_flowing then
 						data[vi] = fill_node
 					end
