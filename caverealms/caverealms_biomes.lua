@@ -116,6 +116,20 @@ local glow_worm_ceiling = function(area, data, ai, vi, bi)
 	end
 end
 
+local obsidian_plug = function(area, data, ai, vi, bi)
+	local pos = area:position(ai)
+	local x = pos.x
+	local y = pos.y
+	local z = pos.z	
+	for i = x - 3, x + 3 do
+		for j = y - 1, y + 1 do
+			for k = z - 3, z + 3 do
+				data[area:index(i,j,k)] = c_water
+			end
+		end
+	end
+end
+
 -----------------------------------------------------------------------------------------------------------
 -- Dungeon
 
@@ -176,7 +190,7 @@ local moss_floor = function(area, data, ai, vi, bi)
 end
 
 local moss_ceiling = function(area, data, ai, vi, bi)
-	if data[ai] == c_lava then data[ai] = c_gobsidian end
+	if data[ai] == c_lava then obsidian_plug(area, data, ai, vi, bi) end
 	glow_worm_ceiling(area, data, ai, vi, bi)
 	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
 		subterrane:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
@@ -214,7 +228,7 @@ local fungal_floor = function(area, data, ai, vi, bi)
 end
 
 local fungal_ceiling = function(area, data, ai, vi, bi)
-	if data[ai] == c_lava then data[ai] = c_gobsidian end
+	if data[ai] == c_lava then obsidian_plug(area, data, ai, vi, bi) end
 	glow_worm_ceiling(area, data, ai, vi, bi)
 	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
 		subterrane:stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
@@ -245,7 +259,7 @@ local algae_floor = function(area, data, ai, vi, bi)
 end
 
 local algae_ceiling = function(area, data, ai, vi, bi)
-	if data[ai] == c_lava then data[ai] = c_gobsidian end
+	if data[ai] == c_lava then obsidian_plug(area, data, ai, vi, bi) end
 	glow_worm_ceiling(area, data, ai, vi, bi)
 	
 	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
@@ -280,7 +294,7 @@ local glaciated_floor = function(area, data, ai, vi, bi)
 end
 
 local glaciated_ceiling = function(area, data, ai, vi, bi)
-	if data[ai] == c_lava then data[ai] = c_gobsidian end
+	if data[ai] == c_lava then obsidian_plug(area, data, ai, vi, bi) end
 	if math.random() < ICICHA then
 		data[vi] = c_icid
 	end
@@ -317,7 +331,7 @@ local deep_glaciated_floor = function(area, data, ai, vi, bi)
 end
 
 local deep_glaciated_ceiling = function(area, data, ai, vi, bi)
-	if data[ai] == c_lava then data[ai] = c_gobsidian end
+	if data[ai] == c_lava then obsidian_plug(area, data, ai, vi, bi) end
 	if math.random() < ICICHA then
 		data[vi] = c_icid
 	end
@@ -606,6 +620,3 @@ minetest.register_biome({
 	_subterrane_floor_decor = coal_floor,
 	_subterrane_fill_node = c_air,
 })
-
-
-
