@@ -110,6 +110,7 @@ function subterrane:stalactite(vi, area, data, min_height, max_height, base_mate
 	end
 end
 
+local c_air = minetest.get_content_id("air")
 
 --function to create giant 'shrooms. Cap radius works well from about 2-6
 function subterrane:giant_shroom(vi, area, data, stem_material, cap_material, gill_material, stem_height, cap_radius)
@@ -123,37 +124,37 @@ function subterrane:giant_shroom(vi, area, data, stem_material, cap_material, gi
 	for l = -cap_radius, cap_radius do
 		if k*k + l*l <= cap_radius*cap_radius then
 			local vi = area:index(x+k, y+stem_height, z+l)
-			data[vi] = cap_material
+			if data[vi] == c_air then data[vi] = cap_material end
 		end
 		if k*k + l*l <= (cap_radius-1)*(cap_radius-1) and (cap_radius-1) > 0 then
 			local vi = area:index(x+k, y+stem_height+1, z+l)
 			data[vi] = cap_material
 			vi = area:index(x+k, y+stem_height, z+l)
-			data[vi] = gill_material
+			if data[vi] == cap_material then data[vi] = gill_material end
 		end
 		if k*k + l*l <= (cap_radius-2)*(cap_radius-2) and (cap_radius-2) > 0 then
 			local vi = area:index(x+k, y+stem_height+2, z+l)
-			data[vi] = cap_material
+			if data[vi] == c_air then data[vi] = cap_material end
 		end
 		if k*k + l*l <= (cap_radius-3)*(cap_radius-3) and (cap_radius-3) > 0 then
 			local vi = area:index(x+k, y+stem_height+3, z+l)
-			data[vi] = cap_material
+			if data[vi] == c_air then data[vi] = cap_material end
 		end
 	end
 	end
 	--stem
-	for j = 0, stem_height do
+	for j = -1, stem_height do
 		local vi = area:index(x, y+j, z)
 		data[vi] = stem_material
 		if cap_radius > 3 then
 			local ai = area:index(x, y+j, z+1)
-			data[ai] = stem_material
+			if data[ai] == c_air then data[ai] = stem_material end
 			ai = area:index(x, y+j, z-1)
-			data[ai] = stem_material
+			if data[ai] == c_air then data[ai] = stem_material end
 			ai = area:index(x+1, y+j, z)
-			data[ai] = stem_material
+			if data[ai] == c_air then data[ai] = stem_material end
 			ai = area:index(x-1, y+j, z)
-			data[ai] = stem_material
+			if data[ai] == c_air then data[ai] = stem_material end
 		end
 	end
 end
