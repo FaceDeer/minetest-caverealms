@@ -196,12 +196,20 @@ minetest.register_on_generated(function(minp, maxp, seed)
 						--ceiling
 						local ai = area:index(x,y+1,z) --above index
 						local bi = area:index(x,y-1,z) --below index
-						if biome._subterrane_ceiling_decor and data[ai] ~= fill_node and data[vi] == fill_node then --ceiling
+												
+						if biome._subterrane_ceiling_decor
+							and data[ai] ~= fill_node
+							and data[vi] == fill_node
+							and y < y1
+							then --ceiling
 							biome._subterrane_ceiling_decor(area, data, ai, vi, bi, data_param2)
 						end
 						--ground
-						if biome._subterrane_floor_decor and data[bi] ~= fill_node and data[vi] == fill_node then --ground
-							local ai = area:index(x,y+1,z)
+						if biome._subterrane_floor_decor
+							and data[bi] ~= fill_node
+							and data[vi] == fill_node
+							and y > y0
+							then --ground
 							biome._subterrane_floor_decor(area, data, ai, vi, bi, data_param2)
 						end
 					end
