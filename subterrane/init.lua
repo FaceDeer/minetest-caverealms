@@ -64,6 +64,40 @@ subterrane:override_biome({
 
 ---------------------------------------------------------------------------------------------
 
+-- Experimenting with a more sophisticated tcave function
+
+local tcave_array =
+{
+	{-200, 1.5},
+	{-400, 0.5},
+	{-600, 0},
+	{-800, 0.5},
+	{-1400, 1.5},
+}
+
+tcave_array.n = table.getn(tcave_array)
+
+local lerp = function(start, stop, point)
+	local percent = point-start[1] / stop[1]-start[1]
+	return start[2] + percent * (stop[2] - start[2])
+end
+
+local get_tcave = function(y)
+	if y >= tcave_array[1][1] then return tcave_array[1][2] end
+	if y <= tcave_array[table.getn(tcave_array)][1] then return tcave_array[1][2] end
+	
+	for index, tcave in ipairs(tcave_array) do
+		if tcave[1] < y then
+			return lerp(tcave_array[index-1], tcave, y)
+		end
+	end
+	
+	minetest.debug("should never get here")
+	return 1.5
+end
+
+---------------------------------------------------------------------------------------------
+
  -- noise objects
 local nobj_cave = nil
 local nobj_wave = nil
@@ -136,6 +170,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			else
 				tcave = TCAVE
 			end
+
 			local vi = area:index(x0, y, z) --current node index
 			for x = x0, x1 do -- for each node do
 
@@ -149,7 +184,11 @@ minetest.register_on_generated(function(minp, maxp, seed)
 
 				if (nvals_cave[index_3d] + nvals_wave[index_3d])/2 > tcave then --if node falls within cave threshold
 					data[vi] = fill_node --hollow it out to make the cave
-				elseif subterrane.mitigate_lava and (nvals_cave[index_3d] + nvals_wave[index_3d])/2 > tcave - 0.2 then -- Eliminate nearby lava to keep it from spilling in
+				elseif biome and biome._subterrane_cave_fill_node and data[vi] == c_air then
+					data[vi] = biome._subterrane_cave_fill_node
+				end
+				
+				if subterrane.mitigate_lava and (nvals_cave[index_3d] + nvals_wave[index_3d])/2 > tcave - 0.2 then -- Eliminate nearby lava to keep it from spilling in
 					if data[vi] == c_lava or data[vi] == c_lava_flowing then
 						data[vi] = fill_node
 					end
@@ -181,15 +220,15 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			end
 			local vi = area:index(x0, y, z)
 			for x = x0, x1 do -- for each node do
-				-- only check nodes near the edges of caverns
-				if math.floor(((nvals_cave[index_3d] + nvals_wave[index_3d])/2)*50) == math.floor(tcave*50) then
-					local biome_name = subterrane.biome_ids[biomemap[index_2d]]
-					local biome = minetest.registered_biomes[biome_name]
-					local fill_node = c_air
-					
-					--if math.random() < 0.005 then minetest.debug("biome", biome_name) end
-					
-					if biome then
+			
+				local biome_name = subterrane.biome_ids[biomemap[index_2d]]
+				local biome = minetest.registered_biomes[biome_name]
+				local fill_node = c_air
+				local cave_fill_node = c_air
+
+				if biome then
+					-- only check nodes near the edges of caverns
+					if math.floor(((nvals_cave[index_3d] + nvals_wave[index_3d])/2)*50) == math.floor(tcave*50) then
 						if biome._subterrane_fill_node then
 							fill_node = biome._subterrane_fill_node
 						end					
@@ -212,8 +251,35 @@ minetest.register_on_generated(function(minp, maxp, seed)
 							then --ground
 							biome._subterrane_floor_decor(area, data, ai, vi, bi, data_param2)
 						end
-					end
+					elseif (biome._subterrane_cave_floor_decor or biome._subterrane_cave_ceiling_decor)
+							and (nvals_cave[index_3d] + nvals_wave[index_3d])/2 <= tcave --if node falls outside cave threshold
+						then
+					-- decorate other "native" caves and tunnels
+						if biome._subterrane_cave_fill_node then
+							cave_fill_node = biome._subterrane_cave_fill_node
+						end
+
+						local ai = area:index(x,y+1,z) --above index
+						local bi = area:index(x,y-1,z) --below index
+												
+						if biome._subterrane_cave_ceiling_decor
+							and data[ai] ~= cave_fill_node
+							and data[vi] == cave_fill_node
+							and y < y1
+							then --ceiling
+							biome._subterrane_cave_ceiling_decor(area, data, ai, vi, bi, data_param2)
+						end
+						--ground
+						if biome._subterrane_cave_floor_decor
+							and data[bi] ~= cave_fill_node
+							and data[vi] == cave_fill_node
+							and y > y0
+							then --ground
+							biome._subterrane_cave_floor_decor(area, data, ai, vi, bi, data_param2)
+						end
+						
 					
+					end	
 				end
 				index_3d = index_3d + 1
 				index_2d = index_2d + 1
