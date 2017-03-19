@@ -60,12 +60,13 @@ local stal_on_place = function(itemstack, placer, pointed_thing, itemname)
 end
 
 
-minetest.register_node("subterrane:stal_1", {
-	description = S("Dripstone"),
+minetest.register_node("subterrane:dry_stal_1", {
+	description = S("Dry Dripstone"),
 	tiles = {
 		"default_stone.png^[brighten",
 	},
 	groups = {cracky = 3, stone = 2, subterrane_stal_align = 1, fall_damage_add_percent=100,},
+	sounds = default.node_sound_stone_defaults(),
 	drawtype = "nodebox",
 	paramtype = "light",
 	paramtype2 = "facedir",
@@ -76,16 +77,17 @@ minetest.register_node("subterrane:stal_1", {
 		}
 	},
 	on_place = function(itemstack, placer, pointed_thing)
-		stal_on_place(itemstack, placer, pointed_thing, "subterrane:stal_1")
+		stal_on_place(itemstack, placer, pointed_thing, "subterrane:dry_stal_1")
 	end,
 })
 
-minetest.register_node("subterrane:stal_2", {
-	description = S("Dripstone"),
+minetest.register_node("subterrane:dry_stal_2", {
+	description = S("Dry Dripstone"),
 	tiles = {
 		"default_stone.png^[brighten",
 	},
 	groups = {cracky = 3, stone = 2, subterrane_stal_align = 1, fall_damage_add_percent=50,},
+	sounds = default.node_sound_stone_defaults(),
 	drawtype = "nodebox",
 	paramtype = "light",
 	paramtype2 = "facedir",
@@ -96,16 +98,17 @@ minetest.register_node("subterrane:stal_2", {
 		}
 	},
 	on_place = function(itemstack, placer, pointed_thing)
-		stal_on_place(itemstack, placer, pointed_thing, "subterrane:stal_2")
+		stal_on_place(itemstack, placer, pointed_thing, "subterrane:dry_stal_2")
 	end,
 })
 
-minetest.register_node("subterrane:stal_3", {
-	description = S("Dripstone"),
+minetest.register_node("subterrane:dry_stal_3", {
+	description = S("Dry Dripstone"),
 	tiles = {
 		"default_stone.png^[brighten",
 	},
 	groups = {cracky = 3, stone = 2, subterrane_stal_align = 1,},
+	sounds = default.node_sound_stone_defaults(),
 	drawtype = "nodebox",
 	paramtype = "light",
 	paramtype2 = "facedir",
@@ -116,16 +119,17 @@ minetest.register_node("subterrane:stal_3", {
 		}
 	},
 	on_place = function(itemstack, placer, pointed_thing)
-		stal_on_place(itemstack, placer, pointed_thing, "subterrane:stal_3")
+		stal_on_place(itemstack, placer, pointed_thing, "subterrane:dry_stal_3")
 	end,
 })
 
-minetest.register_node("subterrane:stal_4", {
-	description = S("Dripstone"),
+minetest.register_node("subterrane:dry_stal_4", {
+	description = S("Dry Dripstone"),
 	tiles = {
 		"default_stone.png^[brighten",
 	},
 	groups = {cracky = 3, stone = 2, subterrane_stal_align = 1,},
+	sounds = default.node_sound_stone_defaults(),
 	drawtype = "nodebox",
 	paramtype = "light",
 	paramtype2 = "facedir",
@@ -136,6 +140,110 @@ minetest.register_node("subterrane:stal_4", {
 		}
 	},
 	on_place = function(itemstack, placer, pointed_thing)
-		stal_on_place(itemstack, placer, pointed_thing, "subterrane:stal_4")
+		stal_on_place(itemstack, placer, pointed_thing, "subterrane:dry_stal_4")
 	end,
+})
+
+minetest.register_node("subterrane:dry_flowstone", {
+	description = S("Dry Flowstone"),
+	tiles = {"default_stone.png^[brighten"},
+	groups = {cracky = 3, stone = 1},
+	drop = 'default:cobble',
+	sounds = default.node_sound_stone_defaults(),
+})
+
+
+-----------------------------------------------
+
+
+minetest.register_node("subterrane:wet_stal_1", {
+	description = S("Wet Dripstone"),
+	tiles = {
+		"default_stone.png^[brighten^subterrane_dripstone_streaks.png",
+	},
+	groups = {cracky = 3, stone = 2, subterrane_stal_align = 1, fall_damage_add_percent=100, subterrane_wet_dripstone = 1},
+	sounds = default.node_sound_stone_defaults(),
+	drawtype = "nodebox",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.0625+x_disp, -0.5, -0.0625+z_disp, 0.0625+x_disp, 0.5, 0.0625+z_disp},
+		}
+	},
+	on_place = function(itemstack, placer, pointed_thing)
+		stal_on_place(itemstack, placer, pointed_thing, "subterrane:dry_stal_1")
+	end,
+})
+
+minetest.register_node("subterrane:wet_stal_2", {
+	description = S("Wet Dripstone"),
+	tiles = {
+		"default_stone.png^[brighten^subterrane_dripstone_streaks.png",
+	},
+	groups = {cracky = 3, stone = 2, subterrane_stal_align = 1, fall_damage_add_percent=50, subterrane_wet_dripstone = 1},
+	sounds = default.node_sound_stone_defaults(),
+	drawtype = "nodebox",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.125+x_disp, -0.5, -0.125+z_disp, 0.125+x_disp, 0.5, 0.125+z_disp},
+		}
+	},
+	on_place = function(itemstack, placer, pointed_thing)
+		stal_on_place(itemstack, placer, pointed_thing, "subterrane:dry_stal_2")
+	end,
+})
+
+minetest.register_node("subterrane:wet_stal_3", {
+	description = S("Wet Dripstone"),
+	tiles = {
+		"default_stone.png^[brighten^subterrane_dripstone_streaks.png",
+	},
+	groups = {cracky = 3, stone = 2, subterrane_stal_align = 1, subterrane_wet_dripstone = 1},
+	sounds = default.node_sound_stone_defaults(),
+	drawtype = "nodebox",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.25+x_disp, -0.5, -0.25+z_disp, 0.25+x_disp, 0.5, 0.25+z_disp}, 
+		}
+	},
+	on_place = function(itemstack, placer, pointed_thing)
+		stal_on_place(itemstack, placer, pointed_thing, "subterrane:dry_stal_3")
+	end,
+})
+
+minetest.register_node("subterrane:wet_stal_4", {
+	description = S("Wet Dripstone"),
+	tiles = {
+		"default_stone.png^[brighten^subterrane_dripstone_streaks.png",
+	},
+	groups = {cracky = 3, stone = 2, subterrane_stal_align = 1, subterrane_wet_dripstone = 1},
+	sounds = default.node_sound_stone_defaults(),
+	drawtype = "nodebox",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.375+x_disp, -0.5, -0.375+z_disp, 0.375+x_disp, 0.5, 0.375+z_disp}, 
+		}
+	},
+	on_place = function(itemstack, placer, pointed_thing)
+		stal_on_place(itemstack, placer, pointed_thing, "subterrane:dry_stal_4")
+	end,
+})
+
+minetest.register_node("subterrane:wet_flowstone", {
+	description = S("Wet Flowstone"),
+	tiles = {"default_stone.png^[brighten^subterrane_dripstone_streaks.png"},
+	groups = {cracky = 3, stone = 1, subterrane_wet_dripstone = 1},
+	drop = 'default:cobble',
+	sounds = default.node_sound_stone_defaults(),
 })

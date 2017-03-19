@@ -11,14 +11,81 @@ function subterrane:vertically_consistent_random(vi, area)
 	return output
 end
 
-local c_stal_1 = minetest.get_content_id("subterrane:stal_1") -- thinnest
-local c_stal_2 = minetest.get_content_id("subterrane:stal_2")
-local c_stal_3 = minetest.get_content_id("subterrane:stal_3")
-local c_stal_4 = minetest.get_content_id("subterrane:stal_4") -- thickest
+local c_dry_stal_1 = minetest.get_content_id("subterrane:dry_stal_1") -- thinnest
+local c_dry_stal_2 = minetest.get_content_id("subterrane:dry_stal_2")
+local c_dry_stal_3 = minetest.get_content_id("subterrane:dry_stal_3")
+local c_dry_stal_4 = minetest.get_content_id("subterrane:dry_stal_4") -- thickest
+
+local c_wet_stal_1 = minetest.get_content_id("subterrane:wet_stal_1") -- thinnest
+local c_wet_stal_2 = minetest.get_content_id("subterrane:wet_stal_2")
+local c_wet_stal_3 = minetest.get_content_id("subterrane:wet_stal_3")
+local c_wet_stal_4 = minetest.get_content_id("subterrane:wet_stal_4") -- thickest
+
 
 local c_air = minetest.get_content_id("air")
+local c_obsidian = minetest.get_content_id("default:obsidian")
+local c_lava = minetest.get_content_id("default:lava_source")
 
-local stalagmite_id = {c_stal_1, c_stal_2, c_stal_3, c_stal_4}
+function subterrane:obsidian_ceiling_plug(area, data, ai, vi, bi)
+	local current_node = data[ai]
+	if current_node ~= c_lava and current_node ~= c_obsidian then return end
+	local not_done = true
+
+	if current_node == c_lava then data[vi] = c_obsidian end
+	
+	local pos = area:position(ai)
+	local x = pos.x
+	local y = pos.y
+	local z = pos.z	
+
+	while not_done do
+		not_done = false
+		if current_node == c_lava then
+			if data[area:index(x+1, y, z)] == c_air then
+				data[area:index(x+1, y, z)] = c_obsidian
+				not_done = true
+			end
+			if data[area:index(x-1, y, z)] == c_air then
+				data[area:index(x-1, y, z)] = c_obsidian
+				not_done = true
+			end
+			if data[area:index(x, y, z+1)] == c_air then
+				data[area:index(x, y, z+1)] = c_obsidian
+				not_done = true
+			end
+			if data[area:index(x, y, z-1)] == c_air then
+				data[area:index(x, y, z-1)] = c_obsidian
+				not_done = true
+			end
+		end
+		if current_node == c_obsidian then
+			not_done = true -- we scan through obsidian in case an adacent lava block caused obsidian to be added here
+		end
+		y = y + 1
+		current_node = data[area:index(x,y,z)]
+	end
+end
+
+local is_adjacent_to_lava = function(area, data, pos)
+	return data[area:index(pos.x+1, pos.y, pos.z)] == c_lava
+		or data[area:index(pos.x-1, pos.y, pos.z)] == c_lava
+		or data[area:index(pos.x, pos.y, pos.z+1)] == c_lava
+		or data[area:index(pos.x, pos.y, pos.z-1)] == c_lava
+end
+
+function subterrane:obsidian_floor_dam(area, data, ai, vi, bi)
+	local pos = area:position(vi)
+	local not_done = true
+	while not_done do
+		not_done = false
+		local vi = area:indexp(pos)
+		if data[vi] == c_air and is_adjacent_to_lava(area, data, pos) then
+			data[vi] = c_obsidian
+			not_done = true
+			pos.y = pos.y + 1
+		end
+	end		
+end
 
 -- Unfortunately there's no easy way to override a single biome, so do it by wiping everything and re-registering
 -- Not only that, but the decorations also need to be wiped and re-registered - it appears they keep
@@ -46,8 +113,11 @@ function subterrane:override_biome(biome_def)
 	end
 end
 
+local wet_stalagmite_id = {c_wet_stal_1, c_wet_stal_2, c_wet_stal_3, c_wet_stal_4}
+local dry_stalagmite_id = {c_dry_stal_1, c_dry_stal_2, c_dry_stal_3, c_dry_stal_4}
+
 -- use a negative height to turn this into a stalactite
-function subterrane:small_stalagmite(vi, area, data, param2_data, param2, height)
+function subterrane:small_stalagmite(vi, area, data, param2_data, param2, height, is_wet)
 	local pos = area:position(vi)
 	local x = pos.x
 	local y = pos.y
@@ -55,6 +125,9 @@ function subterrane:small_stalagmite(vi, area, data, param2_data, param2, height
 	
 	if height == nil then height = math.random(1,4) end
 	if param2 == nil then param2 = math.random(0,3) end
+	
+	local stalagmite_id = nil
+	if is_wet then stalagmite_id = wet_stalagmite_id else stalagmite_id = dry_stalagmite_id end
 	
 	local sign, id_modifier
 	if height > 0 then

@@ -252,12 +252,16 @@ minetest.register_on_generated(function(minp, maxp, seed)
 							then --ground
 							biome._subterrane_floor_decor(area, data, ai, vi, bi, data_param2)
 						end
+						
 					elseif (biome._subterrane_cave_floor_decor or biome._subterrane_cave_ceiling_decor)
 							and (nvals_cave[index_3d] + nvals_wave[index_3d])/2 <= tcave --if node falls outside cave threshold
 						then
 					-- decorate other "native" caves and tunnels
 						if biome._subterrane_cave_fill_node then
 							cave_fill_node = biome._subterrane_cave_fill_node
+							if data[vi] == c_air then
+								data[vi] = cave_fill_node
+							end
 						end
 
 						local ai = area:index(x,y+1,z) --above index
@@ -278,8 +282,6 @@ minetest.register_on_generated(function(minp, maxp, seed)
 							then --ground
 							biome._subterrane_cave_floor_decor(area, data, ai, vi, bi, data_param2)
 						end
-						
-					
 					end	
 				end
 				index_3d = index_3d + 1
