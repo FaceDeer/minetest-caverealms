@@ -14,6 +14,7 @@ local modpath = minetest.get_modpath(minetest.get_current_modname())
 
 --load companion lua files
 dofile(modpath.."/config.lua") --configuration file; holds various constants
+dofile(modpath.."/nodes.lua")
 dofile(modpath.."/functions.lua") --function definitions
 
 local c_lava = minetest.get_content_id("default:lava_source")

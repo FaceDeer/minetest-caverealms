@@ -11,6 +11,14 @@ function subterrane:vertically_consistent_random(vi, area)
 	return output
 end
 
+local c_stal_1 = minetest.get_content_id("subterrane:stal_1") -- thinnest
+local c_stal_2 = minetest.get_content_id("subterrane:stal_2")
+local c_stal_3 = minetest.get_content_id("subterrane:stal_3")
+local c_stal_4 = minetest.get_content_id("subterrane:stal_4") -- thickest
+
+local c_air = minetest.get_content_id("air")
+
+local stalagmite_id = {c_stal_1, c_stal_2, c_stal_3, c_stal_4}
 
 -- Unfortunately there's no easy way to override a single biome, so do it by wiping everything and re-registering
 -- Not only that, but the decorations also need to be wiped and re-registered - it appears they keep
@@ -38,9 +46,35 @@ function subterrane:override_biome(biome_def)
 	end
 end
 
+-- use a negative height to turn this into a stalactite
+function subterrane:small_stalagmite(vi, area, data, param2_data, param2, height)
+	local pos = area:position(vi)
+	local x = pos.x
+	local y = pos.y
+	local z = pos.z
+	
+	if height == nil then height = math.random(1,4) end
+	if param2 == nil then param2 = math.random(0,3) end
+	
+	local sign, id_modifier
+	if height > 0 then
+		sign = 1
+		id_modifier = 1 -- stalagmites are blunter than stalactites
+	else
+		sign = -1
+		id_modifier = 0
+	end
+	
+	for i = 1, math.abs(height) do
+		vi = area:index(x, y + height - i * sign, z)
+		if data[vi] == c_air then
+			data[vi] = stalagmite_id[math.min(i+id_modifier,4)]
+			param2_data[vi] = param2
+		end
+	end	
+end
 
-
---stalagmite spawner
+--giant stalagmite spawner
 function subterrane:stalagmite(vi, area, data, min_height, max_height, base_material, root_material, shaft_material)
 	local pos = area:position(vi)
 	local x = pos.x
@@ -75,7 +109,7 @@ function subterrane:stalagmite(vi, area, data, min_height, max_height, base_mate
 	end
 end
 
---stalactite spawner
+--giant stalactite spawner
 function subterrane:stalactite(vi, area, data, min_height, max_height, base_material, root_material, shaft_material)
 	local pos = area:position(vi)
 	local x = pos.x
@@ -110,7 +144,6 @@ function subterrane:stalactite(vi, area, data, min_height, max_height, base_mate
 	end
 end
 
-local c_air = minetest.get_content_id("air")
 
 --function to create giant 'shrooms. Cap radius works well from about 2-6
 function subterrane:giant_shroom(vi, area, data, stem_material, cap_material, gill_material, stem_height, cap_radius)
