@@ -522,6 +522,15 @@ end
 
 -------------------------------------------------------------------------------------------
 
+-- default mapgen registers an "underground" biome that gets in the way of everything.
+subterrane:override_biome({
+	name = "underground",
+	y_min = YMAX,
+	y_max = -113,
+	heat_point = 50,
+	humidity_point = 50,
+})
+
 minetest.register_biome({
 	name = "caverealms_dungeon",
 	y_min = DM_BOT,

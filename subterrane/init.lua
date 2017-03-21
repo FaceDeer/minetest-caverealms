@@ -44,49 +44,43 @@ local np_wave = {
 	persist = 0.67
 }
 
--- Stuff
+-------------------------------------------------------------------------------------------------------------
+-- tcave function
 
-local YMIN = subterrane.config.ymin -- Approximate realm limits.
-local YMAX = subterrane.config.ymax
-local TCAVE = subterrane.config.tcave --0.5 -- Cave threshold. 1 = small rare caves, 0.5 = 1/3rd ground volume, 0 = 1/2 ground volume
-local BLEND = 128 -- Cave blend distance near YMIN, YMAX
+local YMIN = 31000 -- These defaults result in no caves being generated, a safe fallback if things are left unset.
+local YMAX = -31000
 
-local yblmin = YMIN + BLEND * 1.5
-local yblmax = YMAX - BLEND * 1.5
+--cave threshold.:1 = small rare caves, 0.5 = 1/3rd ground volume, 0 = 1/2 ground volume
 
--- default mapgen registers an "underground" biome that gets in the way of everything.
-subterrane:override_biome({
-	name = "underground",
-	y_min = YMAX,
-	y_max = -113,
-	heat_point = 50,
-	humidity_point = 50,
-})
+local tcave_array
+local tcave_sort = function(entry1, entry2)
+	return tonumber(entry1[1]) > tonumber(entry2[1])
+end
+function subterrane:set_tcave_array(array)
+	table.sort(array, tcave_sort)
+	tcave_array = array
+	YMAX = tcave_array[1][1]
+	YMIN = tcave_array[table.getn(tcave_array)][1]
+end
 
----------------------------------------------------------------------------------------------
-
--- Experimenting with a more sophisticated tcave function
-
-local tcave_array =
-{
-	{-200, 1.5},
-	{-400, 0.5},
-	{-600, 0},
-	{-800, 0.5},
-	{-1400, 1.5},
-}
-
-tcave_array.n = table.getn(tcave_array)
+if subterrane.config.ymin and subterrane.config.ymin and subterrane.config.tcave then
+	local BLEND = 128 -- Cave blend distance near YMIN, YMAX
+	subterrane:set_tcave_array({
+		{subterrane.config.ymax, 1.5},
+		{subterrane.config.ymax - BLEND, subterrane.config.tcave},
+		{subterrane.config.ymin + BLEND, subterrane.config.tcave},
+		{subterrane.config.ymin, 1.5},
+	})
+end
 
 local lerp = function(start, stop, point)
-	local percent = point-start[1] / stop[1]-start[1]
+	local percent = (point - start[1]) / (stop[1] - start[1])
 	return start[2] + percent * (stop[2] - start[2])
 end
 
 local get_tcave = function(y)
-	if y >= tcave_array[1][1] then return tcave_array[1][2] end
-	if y <= tcave_array[table.getn(tcave_array)][1] then return tcave_array[1][2] end
-	
+	if y < YMIN or y > YMAX then return 1.5 end
+
 	for index, tcave in ipairs(tcave_array) do
 		if tcave[1] < y then
 			return lerp(tcave_array[index-1], tcave, y)
@@ -162,15 +156,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	for z = z0, z1 do -- for each xy plane progressing northwards
 		--structure loop, hollows out the cavern
 		for y = y0, y1 do -- for each x row progressing upwards
-			local tcave --declare variable
-			--determine the overall cave threshold
-			if y < yblmin then
-				tcave = TCAVE + ((yblmin - y) / BLEND) ^ 2
-			elseif y > yblmax then
-				tcave = TCAVE + ((y - yblmax) / BLEND) ^ 2
-			else
-				tcave = TCAVE
-			end
+			local tcave = get_tcave(y)
 
 			local vi = area:index(x0, y, z) --current node index
 			for x = x0, x1 do -- for each node do
@@ -211,14 +197,8 @@ minetest.register_on_generated(function(minp, maxp, seed)
 
 		--decoration loop, places nodes on floor and ceiling
 		for y = y0, y1 do -- for each x row progressing upwards
-			local tcave --same as above
-			if y < yblmin then
-				tcave = TCAVE + ((yblmin - y) / BLEND) ^ 2
-			elseif y > yblmax then
-				tcave = TCAVE + ((y - yblmax) / BLEND) ^ 2
-			else
-				tcave = TCAVE
-			end
+			local tcave = get_tcave(y)
+			
 			local vi = area:index(x0, y, z)
 			for x = x0, x1 do -- for each node do
 			
