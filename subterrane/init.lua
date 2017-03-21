@@ -17,10 +17,33 @@ dofile(modpath.."/config.lua") --configuration file; holds various constants
 dofile(modpath.."/nodes.lua")
 dofile(modpath.."/functions.lua") --function definitions
 
-local c_lava = minetest.get_content_id("default:lava_source")
-local c_lava_flowing = minetest.get_content_id("default:lava_flowing")
-local c_stone = minetest.get_content_id("default:stone")
-local c_air = minetest.get_content_id("air")
+
+
+-------------------------------------------------------------------------------------------------------------
+-- tcave function defaults
+
+local YMIN = -31000 -- Defaults if no tcave_array is set
+local YMAX = -700
+
+local tcave_array
+local tcave_sort = function(entry1, entry2)
+	return tonumber(entry1[1]) > tonumber(entry2[1])
+end
+function subterrane:set_tcave_array(array)
+	table.sort(array, tcave_sort)
+	tcave_array = array
+	YMAX = tcave_array[1][1]
+	YMIN = tcave_array[table.getn(tcave_array)][1]
+end
+
+--cave threshold.:1 = small rare caves, 0.5 = 1/3rd ground volume, 0 = 1/2 ground volume
+local BLEND = 128 -- Cave blend distance near YMIN, YMAX
+subterrane:set_tcave_array({
+	{YMAX, 1.5},
+	{YMAX - BLEND, 0.5},
+	{YMIN + BLEND, 0.5},
+	{YMIN, 1.5},
+})
 
 -- 3D noise for caves
 
@@ -44,35 +67,8 @@ local np_wave = {
 	persist = 0.67
 }
 
--------------------------------------------------------------------------------------------------------------
--- tcave function
 
-local YMIN = 31000 -- These defaults result in no caves being generated, a safe fallback if things are left unset.
-local YMAX = -31000
-
---cave threshold.:1 = small rare caves, 0.5 = 1/3rd ground volume, 0 = 1/2 ground volume
-
-local tcave_array
-local tcave_sort = function(entry1, entry2)
-	return tonumber(entry1[1]) > tonumber(entry2[1])
-end
-function subterrane:set_tcave_array(array)
-	table.sort(array, tcave_sort)
-	tcave_array = array
-	YMAX = tcave_array[1][1]
-	YMIN = tcave_array[table.getn(tcave_array)][1]
-end
-
-if subterrane.config.ymin and subterrane.config.ymin and subterrane.config.tcave then
-	local BLEND = 128 -- Cave blend distance near YMIN, YMAX
-	subterrane:set_tcave_array({
-		{subterrane.config.ymax, 1.5},
-		{subterrane.config.ymax - BLEND, subterrane.config.tcave},
-		{subterrane.config.ymin + BLEND, subterrane.config.tcave},
-		{subterrane.config.ymin, 1.5},
-	})
-end
-
+-- reading tcave from y value
 local lerp = function(start, stop, point)
 	local percent = (point - start[1]) / (stop[1] - start[1])
 	return start[2] + percent * (stop[2] - start[2])
@@ -93,7 +89,13 @@ end
 
 ---------------------------------------------------------------------------------------------
 
- -- noise objects
+local c_lava = minetest.get_content_id("default:lava_source")
+local c_lava_flowing = minetest.get_content_id("default:lava_flowing")
+local c_obsidian = minetest.get_content_id("default:obsidian")
+local c_stone = minetest.get_content_id("default:stone")
+local c_air = minetest.get_content_id("air")
+
+-- noise objects
 local nobj_cave = nil
 local nobj_wave = nil
 
@@ -101,7 +103,6 @@ local data = {}
 local data_param2 = {}
 
 -- On generated function
-
 minetest.register_on_generated(function(minp, maxp, seed)
 	--if out of range of subterrane limits
 	if minp.y > YMAX or maxp.y < YMIN then
@@ -175,9 +176,9 @@ minetest.register_on_generated(function(minp, maxp, seed)
 					data[vi] = biome._subterrane_cave_fill_node
 				end
 				
-				if subterrane.mitigate_lava and (nvals_cave[index_3d] + nvals_wave[index_3d])/2 > tcave - 0.2 then -- Eliminate nearby lava to keep it from spilling in
+				if biome and biome._subterrane_mitigate_lava and (nvals_cave[index_3d] + nvals_wave[index_3d])/2 > tcave - 0.1 then -- Eliminate nearby lava to keep it from spilling in
 					if data[vi] == c_lava or data[vi] == c_lava_flowing then
-						data[vi] = fill_node
+						data[vi] = c_obsidian
 					end
 				end
 				--increment indices
