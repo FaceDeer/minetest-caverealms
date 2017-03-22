@@ -14,7 +14,7 @@ local wet_stalagmite_id = {c_wet_stal_1, c_wet_stal_2, c_wet_stal_3, c_wet_stal_
 local dry_stalagmite_id = {c_dry_stal_1, c_dry_stal_2, c_dry_stal_3, c_dry_stal_4}
 
 -- use a negative height to turn this into a stalactite
-function subterrane:small_stalagmite(vi, area, data, param2_data, param2, height, is_wet)
+function subterrane:stalagmite(vi, area, data, param2_data, param2, height, is_wet)
 	local pos = area:position(vi)
 	local x = pos.x
 	local y = pos.y
@@ -45,7 +45,7 @@ function subterrane:small_stalagmite(vi, area, data, param2_data, param2, height
 end
 
 --giant stalagmite spawner
-function subterrane:stalagmite(vi, area, data, min_height, max_height, base_material, root_material, shaft_material)
+function subterrane:giant_stalagmite(vi, area, data, min_height, max_height, base_material, root_material, shaft_material)
 	local pos = area:position(vi)
 	local x = pos.x
 	local y = pos.y
@@ -80,7 +80,7 @@ function subterrane:stalagmite(vi, area, data, min_height, max_height, base_mate
 end
 
 --giant stalactite spawner
-function subterrane:stalactite(vi, area, data, min_height, max_height, base_material, root_material, shaft_material)
+function subterrane:giant_stalactite(vi, area, data, min_height, max_height, base_material, root_material, shaft_material)
 	local pos = area:position(vi)
 	local x = pos.x
 	local y = pos.y
