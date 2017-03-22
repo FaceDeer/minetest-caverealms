@@ -17,9 +17,9 @@ dofile(modpath.."/nodes.lua")
 dofile(modpath.."/caverealms_biomes.lua")
 
 local caverealms_def = {
-	minimum_depth = -700,
-	maximum_depth = -31000,
-	cave_threshold = 0.5,
+	minimum_depth = caverealms.config.ymax,
+	maximum_depth = caverealms.config.ymin,
+	cave_threshold = caverealms.config.tcave,
 	boundary_blend_range = 128,
 	perlin_cave = {
 		offset = 0,

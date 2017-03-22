@@ -1,4 +1,6 @@
--- CaveRealms nodes.lua
+-- internationalization boilerplate
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 --NODES--
 
@@ -202,7 +204,7 @@ for i in ipairs(glow_gem_size) do
 	vs = glow_gem_size[i]
 
 	minetest.register_node(nodename, {
-		description = S("Glow Gem",
+		description = S("Glow Gem"),
 		tiles = {"caverealms_glow_gem.png"},
 		inventory_image = "caverealms_glow_gem.png",
 		wield_image = "caverealms_glow_gem.png",
@@ -235,7 +237,7 @@ for i in ipairs(salt_gem_size) do
 	vs = salt_gem_size[i]
 
 	minetest.register_node(nodename, {
-		description = S("Salt Gem",
+		description = S("Salt Gem"),
 		tiles = {"caverealms_salt_gem.png"},
 		inventory_image = "caverealms_salt_gem.png",
 		wield_image = "caverealms_salt_gem.png",
@@ -268,7 +270,7 @@ for i in ipairs(spike_size) do
 	vs = spike_size[i]
 
 	minetest.register_node(nodename, {
-		description = S("Stone Spike",
+		description = S("Stone Spike"),
 		tiles = {"caverealms_spike.png"},
 		inventory_image = "caverealms_spike.png",
 		wield_image = "caverealms_spike.png",

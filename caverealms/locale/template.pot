@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-19 11:24-0600\n"
+"POT-Creation-Date: 2017-03-21 22:33-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,124 +17,124 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\crafting.lua:7
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\crafting.lua:9
 msgid "Mycena Powder"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:12
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:14
 msgid "Glow Crystal"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:26
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:28
 msgid "Glow Emerald"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:40
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:42
 msgid "Mese Crystal Block"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:54
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:56
 msgid "Glow Ruby"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:68
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:70
 msgid "Glow Amethyst"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:82
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:84
 msgid "Glow Crystal Ore"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:93
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:95
 msgid "Glow Emerald Ore"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:104
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:106
 msgid "Glow Ruby Ore"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:115
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:117
 msgid "Glow Amethyst Ore"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:126
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:154
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:128
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:156
 msgid "Thin Ice"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:140
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:142
 msgid "Salt Crystal"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:205
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:207
 msgid "Glow Gem"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:238
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:240
 msgid "Salt Gem"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:271
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:273
 msgid "Stone Spike"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:293
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:314
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:295
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:316
 msgid "Icicle"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:335
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:337
 msgid "Cave Stone with Moss"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:347
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:349
 msgid "Cave Stone with Lichen"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:359
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:361
 msgid "Cave Stone with Algae"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:371
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:373
 msgid "Cave Stone with Salt"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:385
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:387
 msgid "Hot Cobble"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:398
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:400
 msgid "Glowing Obsidian"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:410
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:412
 msgid "Hot Glow Obsidian"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:423
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:425
 msgid "Coal Dust"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:432
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:434
 msgid "Glow Worms"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:454
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:456
 msgid "Glowing Fungus"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:474
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:476
 msgid "Mycena Mushroom"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:495
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:497
 msgid "Giant Mushroom Stem"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:504
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:506
 msgid "Giant Mushroom Cap"
 msgstr ""
 
-#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:513
+#: C:\Users\Bryan\Downloads\minetest-0.4.15-win64\mods\minetest-caverealms\caverealms\nodes.lua:515
 msgid "Giant Mushroom Gills"
 msgstr ""

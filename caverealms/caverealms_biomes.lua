@@ -27,8 +27,8 @@ local FORTCHA = caverealms.config.fortcha --0.0003 --chance of DM Fortresses
 local DM_TOP = caverealms.config.dm_top -- -4000 --level at which Dungeon Master Realms start to appear
 local DM_BOT = caverealms.config.dm_bot -- -5000 --level at which "" ends
 local DEEP_CAVE = caverealms.config.deep_cave -- -7000 --level at which deep cave biomes take over
-local YMIN = subterrane.config.ymin
-local YMAX = subterrane.config.ymax
+local YMIN = caverealms.config.ymin
+local YMAX = caverealms.config.ymax
 
 local H_LAG = caverealms.config.h_lag --15 --max height for stalagmites
 local H_LAC = caverealms.config.h_lac --20 --...stalactites

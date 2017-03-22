@@ -1,3 +1,8 @@
+caverealms_ymax (upper limit of caves) int -700 -31000 31000
+caverealms_ymin (lower limit of caves) int -31000 -31000 31000
+#1 = small rare caves, 0.5 = 1/3rd ground volume, 0 = 1/2 ground volume
+caverealms_tcave (cave threshold) float 0.5 0 1.5
+
 caverealms_deep_cave (deep cave upper limit) int -7000 -31000 31000
 caverealms_cavespawn (spawn player in cave) bool false
 

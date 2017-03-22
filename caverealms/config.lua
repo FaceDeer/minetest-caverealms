@@ -58,3 +58,7 @@ setting("number", "max_items", 5)
 
 --should player spawn in caves?
 setting("bool", "cavespawn", false)
+
+setting("number", "ymin", -31000) --bottom realm limit
+setting("number", "ymax", -700) --top realm limit
+setting("number", "tcave", 0.5) --cave threshold
