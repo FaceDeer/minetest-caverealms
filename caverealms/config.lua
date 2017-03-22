@@ -55,3 +55,6 @@ setting("number", "deep_cave", -7000) -- upper limit
 setting("number", "min_items", 2)
 --maximum number of items in chests found in fortresses
 setting("number", "max_items", 5)
+
+--should player spawn in caves?
+setting("bool", "cavespawn", false)

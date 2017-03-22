@@ -15,3 +15,32 @@ dofile(modpath.."/crafting.lua")
 dofile(modpath.."/falling_ice.lua")
 dofile(modpath.."/nodes.lua")
 dofile(modpath.."/caverealms_biomes.lua")
+
+local caverealms_def = {
+	minimum_depth = -700,
+	maximum_depth = -31000,
+	cave_threshold = 0.5,
+	boundary_blend_range = 128,
+	perlin_cave = {
+		offset = 0,
+		scale = 1,
+		spread = {x=256, y=256, z=256},
+		seed = -400000000089,
+		octaves = 3,
+		persist = 0.67
+	},
+	perlin_wave = {
+		offset = 0,
+		scale = 1,
+		spread = {x=512, y=256, z=512}, -- squashed 2:1
+		seed = 59033,
+		octaves = 6,
+		persist = 0.63
+	},
+}
+
+subterrane:register_cave_layer(caverealms_def)
+
+if caverealms.config.cavespawn then
+	subterrane:register_cave_spawn(caverealms_def, -960)
+end

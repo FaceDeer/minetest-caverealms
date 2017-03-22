@@ -1,1 +1,0 @@
-subterrane_cavespawn (Player spawns in caves) bool false

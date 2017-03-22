@@ -1,4 +1,5 @@
 caverealms_deep_cave (deep cave upper limit) int -7000 -31000 31000
+caverealms_cavespawn (spawn player in cave) bool false
 
 [Decorations]
 caverealms.stagcha (chance of stalagmites) float 0.002 0 1
