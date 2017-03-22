@@ -1,1 +1,1 @@
-A bundle of the general-purpose "subterrane" mod and a version of "caverealms" that makes use of it.
+A mod for Minetest to add underground realms.
