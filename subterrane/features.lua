@@ -52,13 +52,13 @@ function subterrane:giant_stalagmite(vi, area, data, min_height, max_height, bas
 	local z = pos.z
 
 	local top = math.random(min_height,max_height)
-	for j = 0, top do --y
+	for j = -2, top do --y
 		for k = -3, 3 do
 			for l = -3, 3 do
-				if j == 0 then
+				if j <= 0 then
 					if k*k + l*l <= 9 then
 						local vi = area:index(x+k, y+j, z+l)
-						data[vi] = base_material
+						if data[vi] == c_air then data[vi] = base_material end
 					end
 				elseif j <= top/5 then
 					if k*k + l*l <= 4 then
@@ -87,13 +87,13 @@ function subterrane:giant_stalactite(vi, area, data, min_height, max_height, bas
 	local z = pos.z
 
 	local bot = math.random(-max_height, -min_height) --grab a random height for the stalagmite
-	for j = bot, 0 do --y
+	for j = bot, 2 do --y
 		for k = -3, 3 do
 			for l = -3, 3 do
 				if j >= -1 then
 					if k*k + l*l <= 9 then
 						local vi = area:index(x+k, y+j, z+l)
-						data[vi] = base_material
+						if data[vi] == c_air then data[vi] = base_material end
 					end
 				elseif j >= bot/5 then
 					if k*k + l*l <= 4 then
