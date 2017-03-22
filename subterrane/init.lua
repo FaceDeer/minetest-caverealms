@@ -58,7 +58,7 @@ function subterrane:register_cave_layer(cave_layer_def)
 
 	local YMIN = cave_layer_def.maximum_depth
 	local YMAX = cave_layer_def.minimum_depth
-	local BLEND = math.min(cave_layer_def.boundary_blend_range or 128, (YMIN-YMAX)/2)
+	local BLEND = math.min(cave_layer_def.boundary_blend_range or 128, (YMAX-YMIN)/2)
 	local TCAVE = cave_layer_def.cave_threshold or 0.5
 
 	-- 3D noise for cave
