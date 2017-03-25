@@ -1,12 +1,10 @@
-[Generation settings]
-caverealms.ymin (bottom realm limit) int -33000 -33000 33000
-caverealms.ymax (top realm limit) int -700 -33000 33000
-#Cave threshold. 1 = small rare caves, 0.5 = 1/3rd ground volume, 0 = 1/2 ground volume
-caverealms.tcave (cave threshold) float 0.5 0 1.0
-caverealms.deep_cave (deep cave upper limit) int -7000 -33000 33000
+caverealms_ymax (upper limit of caves) int -700 -31000 31000
+caverealms_ymin (lower limit of caves) int -31000 -31000 31000
+#1 = small rare caves, 0.5 = 1/3rd ground volume, 0 = 1/2 ground volume
+caverealms_tcave (cave threshold) float 0.5 0 1.5
 
-[Player spawning]
-caverealms.cavespawn (Player spawns in caves) bool false
+caverealms_deep_cave (deep cave upper limit) int -7000 -31000 31000
+caverealms_cavespawn (spawn player in cave) bool false
 
 [Decorations]
 caverealms.stagcha (chance of stalagmites) float 0.002 0 1
