@@ -551,6 +551,7 @@ minetest.register_biome({
 	_subterrane_ceiling_decor = moss_ceiling,
 	_subterrane_floor_decor = moss_floor,
 	_subterrane_fill_node = c_air,
+	_subterrane_mitigate_lava = true,
 })
 
 minetest.register_biome({
@@ -562,6 +563,7 @@ minetest.register_biome({
 	_subterrane_ceiling_decor = fungal_ceiling,
 	_subterrane_floor_decor = fungal_floor,
 	_subterrane_fill_node = c_air,
+	_subterrane_mitigate_lava = true,
 })
 
 minetest.register_biome({
@@ -573,6 +575,7 @@ minetest.register_biome({
 	_subterrane_ceiling_decor = algae_ceiling,
 	_subterrane_floor_decor = algae_floor,
 	_subterrane_fill_node = c_air,
+	_subterrane_mitigate_lava = true,
 })
 
 minetest.register_biome({
@@ -584,6 +587,7 @@ minetest.register_biome({
 	_subterrane_ceiling_decor = glaciated_ceiling,
 	_subterrane_floor_decor = glaciated_floor,
 	_subterrane_fill_node = c_air,
+	_subterrane_mitigate_lava = true,
 })
 
 minetest.register_biome({
@@ -595,6 +599,7 @@ minetest.register_biome({
 	_subterrane_ceiling_decor = deep_glaciated_ceiling,
 	_subterrane_floor_decor = deep_glaciated_floor,
 	_subterrane_fill_node = c_air,
+	_subterrane_mitigate_lava = true,
 })
 
 minetest.register_biome({
