@@ -521,6 +521,9 @@ minetest.register_node("caverealms:mushroom_gills", {
 	paramtype = "light",
 })
 
+--define special flame so that it does not expire
+minetest.register_alias("caverealms:constant_flame", "fire:permanent_flame")
+
 --node to create a treasure chest in DM Forts.
 minetest.register_node("caverealms:s_chest", {
 	description = "Trying to rob the bank before it's opened, eh?",
