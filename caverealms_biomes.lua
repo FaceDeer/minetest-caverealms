@@ -89,6 +89,7 @@ local c_spike3 = minetest.get_content_id("caverealms:spike_3")
 local c_spike4 = minetest.get_content_id("caverealms:spike_4")
 local c_spike5 = minetest.get_content_id("caverealms:spike_5")
 local c_thinice = minetest.get_content_id("caverealms:thin_ice")
+local c_thinicehanging = minetest.get_content_id("caverealms:hanging_thin_ice")
 local c_worm = minetest.get_content_id("caverealms:glow_worm")
 local c_stem = minetest.get_content_id("caverealms:mushroom_stem")
 local c_cap = minetest.get_content_id("caverealms:mushroom_cap")
@@ -305,7 +306,7 @@ local glaciated_ceiling = function(area, data, ai, vi, bi)
 		if math.random(3) == 1 then
 			subterrane:giant_stalactite(vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
 		else
-			subterrane:giant_stalactite(vi, area, data, 6, H_CLAC, c_ice, c_ice, c_thinice)
+			subterrane:giant_stalactite(vi, area, data, 6, H_CLAC, c_ice, c_ice, c_thinicehanging)
 		end
 	end
 end
@@ -343,7 +344,7 @@ local deep_glaciated_ceiling = function(area, data, ai, vi, bi)
 		if math.random(3) == 1 then
 			subterrane:giant_stalactite(vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
 		else
-			subterrane:giant_stalactite(vi, area, data, 6, H_CLAC, c_ice, c_ice, c_thinice)
+			subterrane:giant_stalactite(vi, area, data, 6, H_CLAC, c_ice, c_ice, c_thinicehanging)
 		end
 	end	
 end
