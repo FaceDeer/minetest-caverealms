@@ -135,13 +135,13 @@ end
 -- Dungeon
 
 local dungeon_floor = function(area, data, ai, vi, bi)
-	if data[bi] == c_stone then data[vi] = c_hcobble end
+	if data[bi] == c_stone then data[bi] = c_hcobble end
 	if math.random() < FLACHA then --neverending flames
-		data[ai] = c_flame
+		data[vi] = c_flame
 	elseif math.random() < FOUNCHA and FOUNTAINS then --DM FOUNTAIN
-		data[ai] = c_fountain
+		data[vi] = c_fountain
 	elseif math.random() < FORTCHA and FORTRESSES then --DM FORTRESS
-		data[ai] = c_fortress
+		data[vi] = c_fortress
 	elseif subterrane:vertically_consistent_random(vi, area) < STAGCHA then
 		subterrane:giant_stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
@@ -170,7 +170,7 @@ end
 -- Moss
 
 local moss_floor = function(area, data, ai, vi, bi)
-	if data[bi] == c_stone then data[vi] = c_moss end
+	if data[bi] == c_stone then data[bi] = c_moss end
 	if math.random() < GEMCHA then
 		-- gems of random size
 		local gems = { c_gem1, c_gem2, c_gem3, c_gem4, c_gem5 }
@@ -178,7 +178,7 @@ local moss_floor = function(area, data, ai, vi, bi)
 		if gidx > 5 then
 			gidx = 1
 		end
-		data[ai] = gems[gidx]
+		data[vi] = gems[gidx]
 	elseif subterrane:vertically_consistent_random(vi, area) < STAGCHA then
 		subterrane:giant_stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
@@ -208,24 +208,25 @@ end
 -- Fungal
 
 local fungal_floor = function(area, data, ai, vi, bi)
-	if data[bi] == c_stone then data[vi] = c_lichen end
-	if math.random() < MUSHCHA then --mushrooms
-		data[ai] = c_fungus
-	elseif math.random() < MYCCHA then --mycena mushrooms
-		data[ai] = c_mycena
-	elseif math.random() < GIANTCHA then --giant mushrooms
-		local cap_radius = math.random(2,5)
-		local stem_height = math.random(3,7)
-		subterrane:giant_shroom(vi, area, data, c_stem, c_cap, c_gills, stem_height, cap_radius)
-	elseif subterrane:vertically_consistent_random(vi, area) < STAGCHA then
-		subterrane:giant_stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
-	elseif math.random() < CRYSTAL then
-		if math.random(15) == 1 then
-			subterrane:giant_stalagmite(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
-		else
-			subterrane:giant_stalagmite(vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
+	if data[bi] == c_stone then data[bi] = c_lichen
+		if math.random() < MUSHCHA then --mushrooms
+			data[vi] = c_fungus
+		elseif math.random() < MYCCHA then --mycena mushrooms
+			data[vi] = c_mycena
+		elseif math.random() < GIANTCHA then --giant mushrooms
+			local cap_radius = math.random(2,5)
+			local stem_height = math.random(3,7)
+			subterrane:giant_shroom(vi, area, data, c_stem, c_cap, c_gills, stem_height, cap_radius)
+		elseif subterrane:vertically_consistent_random(vi, area) < STAGCHA then
+			subterrane:giant_stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		elseif math.random() < CRYSTAL then
+			if math.random(15) == 1 then
+				subterrane:giant_stalagmite(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
+			else
+				subterrane:giant_stalagmite(vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
+			end
 		end
-	end
+	 end
 end
 
 local fungal_ceiling = function(area, data, ai, vi, bi)
@@ -246,8 +247,7 @@ end
 -- Algae
 
 local algae_floor = function(area, data, ai, vi, bi)
-	if data[bi] == c_stone then data[vi] = c_algae end
-	--if data[ai] == c_air then data[ai] = c_water end
+	if data[bi] == c_stone then data[bi] = c_algae end
 	if subterrane:vertically_consistent_random(vi, area) < STAGCHA then
 		subterrane:giant_stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
