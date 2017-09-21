@@ -526,7 +526,7 @@ minetest.register_alias("caverealms:constant_flame", "fire:permanent_flame")
 
 --node to create a treasure chest in DM Forts.
 minetest.register_node("caverealms:s_chest", {
-	description = "Trying to rob the bank before it's opened, eh?",
+	description = "Treasure chest placement block",
 	tiles = {"default_chest_front.png"},
 	paramtype2 = "facedir",
 	groups = {choppy=3,oddly_breakable_by_hand=2,cavechest=1, not_in_creative_inventory=1},
@@ -540,7 +540,7 @@ minetest.register_node("caverealms:s_chest", {
 --hacky schematic placers
 
 minetest.register_node("caverealms:s_fountain", {
-	description = "A Hack like you should know what this does...",
+	description = "Fountain placement block",
 	tiles = {"caverealms_stone_eyes.png"},
 	groups = {crumbly=3, schema=1, not_in_creative_inventory=1},
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
@@ -551,7 +551,7 @@ minetest.register_node("caverealms:s_fountain", {
 })
 
 minetest.register_node("caverealms:s_fortress", {
-	description = "A Hack like you should know what this does...",
+	description = "Fortress placement block",
 	tiles = {"caverealms_stone_eyes.png"},
 	groups = {crumbly=3, schema=1, not_in_creative_inventory=1},
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
